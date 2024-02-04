@@ -1,0 +1,328 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Mini-Projet Etude et application de quelques schémas aux différences finies pour deux lois de conservation},
+  pdfauthor={AMECK GUY-MAX DESIRE DOSSEH \& RIM ELMGHARI},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Mini-Projet Etude et application de quelques schémas aux
+différences finies pour deux lois de conservation}
+\author{AMECK GUY-MAX DESIRE DOSSEH \& RIM ELMGHARI}
+\date{2024-02-04}
+
+\begin{document}
+\maketitle
+
+On souhaite étudier, appliquer et voir le comportement de quelques
+schémas aux différences finies pour deux équations relevant de lois de
+conservation 1D définies sur un domaine \(\Omega = [0, L]\).
+
+\hypertarget{equation-de-transport}{%
+\section{1. Equation de transport}\label{equation-de-transport}}
+
+On considère l'équation de transport soumise à des conditions aux
+limites periodiques:
+
+\[
+(E_{1})\left\{
+\begin{array}{ll}
+\frac{\partial u}{\partial t} + a\frac{\partial u}{\partial x} = 0, & \forall x \in ]0,L[\  ; \ \forall t>0 \\
+u(x, t=0) = u_0(x), & \forall x \in [0,L] \\
+u(0, t) = u(L, t)\ ; \ \frac{\partial u}{\partial x}(L, t)=0 & \forall t > 0
+\end{array}
+\right.
+\] 1) A l'aide de la methode des caracteristiques, determiner la
+solution exacte \(u(x, t)\) du probleme \((E_{1})\).
+
+Nous allons chercher une courbe caractéristique
+\(\Gamma ((t(s), x(s))\), s étant le paramètre qui décrit la courbe, le
+long de laquelle l'EDP devient un système d'EDO.
+
+\[
+\begin{aligned}
+du &= \frac{\partial u}{\partial t}dt + \frac{\partial u}{\partial x}dx\\
+\frac{du}{ds} &= \frac{\partial u}{\partial t}\frac{dt}{ds} + \frac{\partial u}{\partial x}\frac{dx}{ds}\\
+\frac{du}{ds} &= -a\frac{\partial u}{\partial x}\frac{dt}{ds} + \frac{\partial u}{\partial x}\frac{dx}{ds}\\
+\frac{du}{ds} &= \frac{\partial u}{\partial x}(\frac{dx}{ds}-a\frac{dt}{ds})
+\end{aligned}
+\]
+
+On voit que si on impose \(\frac{dx}{ds}-a\frac{dt}{ds} = 0\), on a
+\(\frac{du}{ds} = 0\), c'est à dire que u est constant le long de la
+courbe caractéristique.
+
+On a donc le système d'EDO suivant a resoudre:
+
+\[
+\left\{
+\begin{array}{ll}
+\frac{dx}{dt} = a \ \text{qui donne la courbe caractéristique }\Gamma\\
+du = 0 \ \text{qui donne la solution u(x, t) sur cette courbe caractéristique} 
+\end{array}
+\right.
+\] Courbes caractéristiques:
+
+\[
+\frac{dx}{dt} = a \ \text{donne} \ x(t) = at + \xi (avec \ \xi \ \text{une constante reelle d'integration})
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+
+\CommentTok{\# Define the values of a and xi}
+\NormalTok{a }\OperatorTok{=} \DecValTok{2}
+\NormalTok{xi\_values }\OperatorTok{=}\NormalTok{ [}\OperatorTok{{-}}\DecValTok{4}\NormalTok{, }\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\OperatorTok{{-}}\DecValTok{2}\NormalTok{, }\OperatorTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{]}
+
+\CommentTok{\# Define the time range}
+\NormalTok{t }\OperatorTok{=}\NormalTok{ np.linspace(}\OperatorTok{{-}}\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{100}\NormalTok{)}
+
+\CommentTok{\# Plot the characteristic curves for each xi value}
+\ControlFlowTok{for}\NormalTok{ xi }\KeywordTok{in}\NormalTok{ xi\_values:}
+\NormalTok{    x }\OperatorTok{=}\NormalTok{ a }\OperatorTok{*}\NormalTok{ t }\OperatorTok{+}\NormalTok{ xi}
+\NormalTok{    plt.plot(t, x, label}\OperatorTok{=}\SpecialStringTok{f"xi = }\SpecialCharTok{\{}\NormalTok{xi}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+
+\CommentTok{\# Plot the x and y axes}
+\NormalTok{plt.axhline(}\DecValTok{0}\NormalTok{, color}\OperatorTok{=}\StringTok{\textquotesingle{}black\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.axvline(}\DecValTok{0}\NormalTok{, color}\OperatorTok{=}\StringTok{\textquotesingle{}black\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{plt.xlabel(}\StringTok{\textquotesingle{}Time\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{\textquotesingle{}x(t)\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.title(}\StringTok{\textquotesingle{}Characteristic Curves\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.grid(}\VariableTok{True}\NormalTok{)}
+\NormalTok{plt.legend()}
+
+\CommentTok{\# Set the x and y axes limits to center at 0}
+\NormalTok{plt.xlim(}\OperatorTok{{-}}\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (-10.0, 10.0)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plt.ylim(}\OperatorTok{{-}}\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (-10.0, 10.0)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Set the x and y axis ticks}
+\NormalTok{plt.xticks(np.arange(}\OperatorTok{{-}}\DecValTok{10}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ([<matplotlib.axis.XTick object at 0x0000023DD3277ED0>, <matplotlib.axis.XTick object at 0x0000023DD3275A50>, <matplotlib.axis.XTick object at 0x0000023DCFCEDF90>, <matplotlib.axis.XTick object at 0x0000023DD33030D0>, <matplotlib.axis.XTick object at 0x0000023DD33090D0>, <matplotlib.axis.XTick object at 0x0000023DD330A350>, <matplotlib.axis.XTick object at 0x0000023DD330C310>, <matplotlib.axis.XTick object at 0x0000023DD330E450>, <matplotlib.axis.XTick object at 0x0000023DD3310650>, <matplotlib.axis.XTick object at 0x0000023DD3312710>, <matplotlib.axis.XTick object at 0x0000023DD3308810>], [Text(-10, 0, '−10'), Text(-8, 0, '−8'), Text(-6, 0, '−6'), Text(-4, 0, '−4'), Text(-2, 0, '−2'), Text(0, 0, '0'), Text(2, 0, '2'), Text(4, 0, '4'), Text(6, 0, '6'), Text(8, 0, '8'), Text(10, 0, '10')])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plt.yticks(np.arange(}\OperatorTok{{-}}\DecValTok{10}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ([<matplotlib.axis.YTick object at 0x0000023DD327FC50>, <matplotlib.axis.YTick object at 0x0000023DD16FCE50>, <matplotlib.axis.YTick object at 0x0000023DD16A4E10>, <matplotlib.axis.YTick object at 0x0000023DD331B190>, <matplotlib.axis.YTick object at 0x0000023DD5C21310>, <matplotlib.axis.YTick object at 0x0000023DD3319C50>, <matplotlib.axis.YTick object at 0x0000023DD5C23CD0>, <matplotlib.axis.YTick object at 0x0000023DD5C29D10>, <matplotlib.axis.YTick object at 0x0000023DD5C2BD50>, <matplotlib.axis.YTick object at 0x0000023DD5C2DE90>, <matplotlib.axis.YTick object at 0x0000023DD5C2FFD0>], [Text(0, -10, '−10'), Text(0, -8, '−8'), Text(0, -6, '−6'), Text(0, -4, '−4'), Text(0, -2, '−2'), Text(0, 0, '0'), Text(0, 2, '2'), Text(0, 4, '4'), Text(0, 6, '6'), Text(0, 8, '8'), Text(0, 10, '10')])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Hide the legend}
+\NormalTok{plt.legend().set\_visible(}\VariableTok{False}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{mini_project_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+On discretise l'intervalle \([0, L]\) en \((N-1)\) sous-interalles
+\([x_{i}, x_{i+1}](i=1, ..., N-1)\) de tailles egales
+\(\Delta x(\Delta x=\frac{L}{N-1}, x_{i+1}=x_{i}+\Delta x)\), et on note
+par \(u_{i}^{n}\) la solution approchee au noeud \(x_{i}\) a l'instant
+\(t^{n}=n\Delta t\)(\(\Delta t\) etant le pas de chnage).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Etudier la consistance, la stabilite et la convergence de chacun des
+  schemas numeriques suivants:
+\end{enumerate}
+
+Schema 1 (centre):
+
+\[
+\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} = 0
+\]
+
+Schema 2 (decentre):
+
+\[
+\begin{aligned}
+\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j}^{n}-u_{j-1}^{n}}{\Delta x} = 0 & \text{ si } a > 0\\
+\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j}^{n}}{\Delta x} = 0 & \text{ si } a < 0
+\end{aligned}
+\]
+
+Schema 3 (Lax-Friedrichs):
+
+\[
+\frac{u_{j}^{n+1}-\frac{1}{2}(u_{j-1}^{n}+u_{j+1}^{n})}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} = 0
+\]
+
+Schema 4 (Lax-Wendroff):
+
+\[
+\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(u_{j-1}^{n}-2u_{j}^{n}+u_{j+1}^{n}) = 0
+\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{2}
+\item
+  Implémenter chacun des schémas numériques pour évaluer la solution
+  approchée, puis comparer cette solution avec la solution exacte.
+  (Tracer les solutions aux temps physiques t1 = 2.5 s et t2 = 4.5 s en
+  testant sur deux maillages différents formés de N = 100 et N = 200
+  points. Interpréter les résultats.
+\item
+  Evaluer l'erreur en norme \(L^1\) de la solution numérique obtenue par
+  chaque schéma au temps \(t_1 = 2.5 s\) et pour N = 100. Interpréter.
+\end{enumerate}
+
+\textbf{Données} :
+
+\(L = 10 m ,\  a = 2 m/s , \ u_0(x) = 1\  pour\  3 m \leq x \leq 4 m\  et\  0 \ ailleurs.\)
+
+Nombre de Courant : \(CFL = 0.8\).
+
+\hypertarget{equation-de-burgers}{%
+\section{2. Equation de Burgers}\label{equation-de-burgers}}
+
+On considere maintenant l'equation de Burgers suivante:
+
+\[
+(E_{2})\left\{
+\begin{array}{ll}
+\frac{\partial u}{\partial t} + u\frac{\partial u}{\partial x} = 0, & \forall x \in ]0,L[\  ; \ \forall t>0 \\
+u(x, t=0) = u_0(x), & \forall x \in [0,L] \\
+\frac{\partial u}{\partial x}(0, t)= \frac{\partial u}{\partial x}(L, t)=0 & \forall t > 0
+\end{array}
+\right.
+\] 5) Reprendre les questions 1), 3) et 4).
+
+\textbf{Données} :
+
+\(L = 6m ,\  u_0(x) = 0.4\  pour\  x < 2m \ et \ 0.1\ ailleurs.\ CFL = 0.8\).
+
+\end{document}
