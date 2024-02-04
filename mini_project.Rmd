@@ -39,6 +39,27 @@ du &= \frac{\partial u}{\partial t}dt + \frac{\partial u}{\partial x}dx\\
 \end{aligned}
 $$
 
+On voit que si on impose $\frac{dx}{ds}-a\frac{dt}{ds} = 0$, on a $\frac{du}{ds} = 0$, c'est à dire que u est constant le long de la courbe caractéristique. 
+
+On a donc le système d'EDO suivant:
+
+$$
+\left\{
+\begin{array}{ll}
+\frac{dx}{dt} = a\\
+du = 0
+\end{array}
+\right.
+$$
+
+
+
+
+
+
+
+
+
 
 On discretise l'intervalle $[0, L]$ en $(N-1)$ sous-interalles $[x_{i}, x_{i+1}](i=1, ..., N-1)$ de tailles egales $\Delta x(\Delta x=\frac{L}{N-1}, x_{i+1}=x_{i}+\Delta x)$, et on note par $u_{i}^{n}$ la solution approchee au noeud $x_{i}$ a l'instant $t^{n}=n\Delta t$($\Delta t$ etant le pas de chnage).
 
