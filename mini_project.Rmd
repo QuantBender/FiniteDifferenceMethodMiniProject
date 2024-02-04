@@ -665,13 +665,14 @@ et on injecte cette solution dans le schéma numérique:
 
 $$
 \begin{aligned}
-\frac{u_{j}^{n+1}-\frac{1}{2}(u_{j-1}^{n}+u_{j+1}^{n})}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} = 0 & \implies \frac{C^{n+1}e^{i\xi x_{j}}-\frac{1}{2}(C^{n}e^{i\xi x_{j-1}}+C^{n}e^{i\xi x_{j+1}})}{\Delta t} + a\frac{C^{n}e^{i\xi x_{j+1}}-C^{n}e^{i\xi x_{j-1}}}{2\Delta x} = 0\\
-       & \implies \frac{C^{n+1}e^{i\xi j\Delta x}-\frac{1}{2}(C^{n}e^{i\xi (j-1)\Delta x}+C^{n}e^{i\xi (j+1)\Delta x})}{\Delta t} + a\frac{C^{n}e^{i\xi (j+1)\Delta x}-C^{n}e^{i\xi (j-1)\Delta x}}{2\Delta x} = 0\\
-       & \implies \frac{C^{n+1}-\frac{1}{2}(C^{n}e^{-i\xi \Delta x}+C^{n}e^{i\xi \Delta x})}{\Delta t} + a\frac{e^{i\xi \Delta x}-e^{-i\xi \Delta x}}{2\Delta x}C^{n} = 0\\
-       & \implies C^{n+1} = \frac{1}{2}(C^{n}e^{-i\xi \Delta x}+C^{n}e^{i\xi \Delta x}) - \frac{a\Delta t}{2\Delta x}(e^{i\xi \Delta x}-e^{-i\xi \Delta x})C^{n}\\
-       & \implies C^{n+1} = \frac{1}{2}(C^{n}(cos(\xi \Delta x)-isin(\xi \Delta x)+cos(\xi \Delta x)+isin(\xi \Delta x)) - \frac{a\Delta t}{2\Delta x}(cos(\xi \Delta x)+isin(\xi \Delta x)-cos(\xi \Delta x)+isin(\xi \Delta x))C^{n}\\
-       & \implies C^{n+1} = \frac{1}{2}(2cos(\xi\Delta x)-\frac{a\Delta t}{2\Delta x}2isin(\xi\Delta x))C^{n}\\
-       & \implies C^{n+1} = (cos(\xi\Delta x)-i\lambda sin(\xi\Delta x))C^{n}, \text{ avec } \lambda = \frac{a\Delta t}{\Delta x}\\
+&  \frac{u_{j}^{n+1}-\frac{1}{2}(u_{j-1}^{n}+u_{j+1}^{n})}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} = 0\\
+&  \frac{C^{n+1}e^{i\xi x_{j}}-\frac{1}{2}(C^{n}e^{i\xi x_{j-1}}+C^{n}e^{i\xi x_{j+1}})}{\Delta t} + a\frac{C^{n}e^{i\xi x_{j+1}}-C^{n}e^{i\xi x_{j-1}}}{2\Delta x} = 0\\
+       &  \frac{C^{n+1}e^{i\xi j\Delta x}-\frac{1}{2}(C^{n}e^{i\xi (j-1)\Delta x}+C^{n}e^{i\xi (j+1)\Delta x})}{\Delta t} + a\frac{C^{n}e^{i\xi (j+1)\Delta x}-C^{n}e^{i\xi (j-1)\Delta x}}{2\Delta x} = 0\\
+       &  \frac{C^{n+1}-\frac{1}{2}(C^{n}e^{-i\xi \Delta x}+C^{n}e^{i\xi \Delta x})}{\Delta t} + a\frac{e^{i\xi \Delta x}-e^{-i\xi \Delta x}}{2\Delta x}C^{n} = 0\\
+       &  C^{n+1} = \frac{1}{2}(C^{n}e^{-i\xi \Delta x}+C^{n}e^{i\xi \Delta x}) - \frac{a\Delta t}{2\Delta x}(e^{i\xi \Delta x}-e^{-i\xi \Delta x})C^{n}\\
+       &  C^{n+1} = \frac{1}{2}(C^{n}(cos(\xi \Delta x)-isin(\xi \Delta x)+cos(\xi \Delta x)+isin(\xi \Delta x)) - \frac{a\Delta t}{2\Delta x}(cos(\xi \Delta x)+isin(\xi \Delta x)-cos(\xi \Delta x)+isin(\xi \Delta x))C^{n}\\
+       &  C^{n+1} = \frac{1}{2}(2cos(\xi\Delta x)-\frac{a\Delta t}{2\Delta x}2isin(\xi\Delta x))C^{n}\\
+       &  C^{n+1} = (cos(\xi\Delta x)-i\lambda sin(\xi\Delta x))C^{n}, \text{ avec } \lambda = \frac{a\Delta t}{\Delta x}\\
 \end{aligned}
 $$
 
@@ -829,11 +830,12 @@ et on injecte cette solution dans le schéma numérique:
 
 $$
 \begin{aligned}
-\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(u_{j-1}^{n}-2u_{j}^{n}+u_{j+1}^{n}) = 0 & \implies \frac{C^{n+1}e^{i\xi x_{j}}-C^{n}e^{i\xi x_{j}}}{\Delta t} + a\frac{C^{n}e^{i\xi x_{j+1}}-C^{n}e^{i\xi x_{j-1}}}{2\Delta x} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(C^{n}e^{i\xi x_{j-1}}-2C^{n}e^{i\xi x_{j}}+C^{n}e^{i\xi x_{j+1}}) = 0\\
-       & \implies \frac{C^{n+1}e^{i\xi j\Delta x}-C^{n}e^{i\xi j\Delta x}}{\Delta t} + a\frac{e^{i\xi \Delta x}-e^{-i\xi \Delta x}}{2\Delta x}e^{i\xi j\Delta x}C^{n} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(e^{-i\xi \Delta x}-2+e^{i\xi \Delta x})e^{i\xi j\Delta x}C^{n} = 0\\
-       & \implies \frac{C^{n+1}-C^{n}}{\Delta t}e^{i\xi j\Delta x} + a\frac{e^{i\xi \Delta x}-e^{-i\xi \Delta x}}{2\Delta x}C^{n}e^{i\xi j\Delta x} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(e^{-i\xi \Delta x}-2+e^{i\xi \Delta x})C^{n}e^{i\xi j\Delta x} = 0\\
-       & \implies C^{n+1} = C^{n} - \frac{a\Delta t}{\Delta x}(isin(\xi \Delta x))C^{n} + \frac{a^{2}(\Delta t)^2}{(\Delta x)^{2}}(cos(\xi \Delta x)-1)C^{n}\\
-       & \implies C^{n+1} = (1 - i\lambda sin(\xi \Delta x) + \lambda^2(cos(\xi \Delta x)-1))C^{n}, \text{ avec } \lambda = \frac{a\Delta t}{\Delta x}\\
+&  \frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(u_{j-1}^{n}-2u_{j}^{n}+u_{j+1}^{n}) = 0\\
+&  \frac{C^{n+1}e^{i\xi x_{j}}-C^{n}e^{i\xi x_{j}}}{\Delta t} + a\frac{C^{n}e^{i\xi x_{j+1}}-C^{n}e^{i\xi x_{j-1}}}{2\Delta x} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(C^{n}e^{i\xi x_{j-1}}-2C^{n}e^{i\xi x_{j}}+C^{n}e^{i\xi x_{j+1}}) = 0\\
+       &  \frac{C^{n+1}e^{i\xi j\Delta x}-C^{n}e^{i\xi j\Delta x}}{\Delta t} + a\frac{e^{i\xi \Delta x}-e^{-i\xi \Delta x}}{2\Delta x}e^{i\xi j\Delta x}C^{n} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(e^{-i\xi \Delta x}-2+e^{i\xi \Delta x})e^{i\xi j\Delta x}C^{n} = 0\\
+       &  \frac{C^{n+1}-C^{n}}{\Delta t}e^{i\xi j\Delta x} + a\frac{e^{i\xi \Delta x}-e^{-i\xi \Delta x}}{2\Delta x}C^{n}e^{i\xi j\Delta x} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(e^{-i\xi \Delta x}-2+e^{i\xi \Delta x})C^{n}e^{i\xi j\Delta x} = 0\\
+       &  C^{n+1} = C^{n} - \frac{a\Delta t}{\Delta x}(isin(\xi \Delta x))C^{n} + \frac{a^{2}(\Delta t)^2}{(\Delta x)^{2}}(cos(\xi \Delta x)-1)C^{n}\\
+       &  C^{n+1} = (1 - i\lambda sin(\xi \Delta x) + \lambda^2(cos(\xi \Delta x)-1))C^{n}, \text{ avec } \lambda = \frac{a\Delta t}{\Delta x}\\
 \end{aligned}
 $$
 
@@ -870,6 +872,8 @@ Ainsi, le schéma 4 Lax-Wendroff est incoditionnellement stable.
 
 Le schema 4 Lax-Wendroff etant consistant et stable; en utilisant le theorème de Lax, on deduit que le schema 4 Lax-Wendroff est convergent.
 
+
+\newpage
 
 
 3) Implémenter chacun des schémas numériques pour évaluer la solution approchée, puis comparer cette solution avec la solution exacte. (Tracer les solutions aux temps physiques t1 = 2.5 s et t2 = 4.5 s en testant sur deux maillages différents formés de N = 100 et N = 200 points. Interpréter les résultats.
