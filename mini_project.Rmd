@@ -4,6 +4,7 @@ title: "Mini-Projet Etude et application de quelques schémas aux différences f
 author: "AMECK GUY-MAX DESIRE DOSSEH & RIM ELMGHARI"
 date: "`r Sys.Date()`"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
 ---
@@ -53,7 +54,9 @@ du = 0 \ \text{qui donne la solution u(x, t) sur cette courbe caractéristique}
 \end{array}
 \right.
 $$
-<b><u>Courbes caractéristiques:</u></b>
+\newpage
+
+**Courbes caractéristiques:**
 
 $$
 \frac{dx}{dt} = a \ \text{donne} \ x(t) = at + \xi (avec \ \xi \ \text{une constante reelle d'integration})
@@ -72,6 +75,7 @@ xi_values = [-4, -3, -2, -1, 0, 1, 2, 3, 4]
 # Define the time range
 t = np.linspace(-10, 10, 100)
 
+plt.figure(figsize=(12, 8))
 # Plot the characteristic curves for each xi value
 for xi in xi_values:
     x = a * t + xi
@@ -100,14 +104,33 @@ plt.legend().set_visible(False)
 plt.show()
 ```
 
+**Solution**
 
+Sur chaque courbe caractéristique $(\Gamma): x-at = \xi$, on a:
 
+$$
+du = 0 \Rightarrow u(t, x) =  cte = f(\xi) \leftarrow i.e. \text{ u ne depend que de } \xi 
+$$
+Soit alors 
 
+$$
+u(t, x) = f(x-at)
+$$
+Cette solution doit etre retrouvee aussi pour $t=0$.
 
+Or a $t=0$, on a:
 
+$$
+u(0, x) = u_0(x) = f(x) \Rightarrow f(x) = u_0(x)
+$$
 
+c'est a dire $$f\equiv u_0$$
 
+On obtient finalement la solution exacte du probleme $(E_{1})$:
 
+$$
+u(t, x) = u_0(x-at), \ \forall x \in [0, L], \ \forall t > 0
+$$
 
 
 On discretise l'intervalle $[0, L]$ en $(N-1)$ sous-interalles $[x_{i}, x_{i+1}](i=1, ..., N-1)$ de tailles egales $\Delta x(\Delta x=\frac{L}{N-1}, x_{i+1}=x_{i}+\Delta x)$, et on note par $u_{i}^{n}$ la solution approchee au noeud $x_{i}$ a l'instant $t^{n}=n\Delta t$($\Delta t$ etant le pas de chnage).
@@ -115,13 +138,16 @@ On discretise l'intervalle $[0, L]$ en $(N-1)$ sous-interalles $[x_{i}, x_{i+1}]
 
 2) Etudier la consistance, la stabilite et la convergence de chacun des schemas numeriques suivants:
 
-<u>Schema 1 (centre):</u>
+
+**Schema 1 (centre):**
 
 $$
 \frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} = 0
 $$
 
-<u>Schema 2 (decentre):</u>
+
+
+**Schema 2 (decentre):**
 
 $$
 \begin{aligned}
@@ -130,14 +156,14 @@ $$
 \end{aligned}
 $$
 
-<u>Schema 3 (Lax-Friedrichs):</u>
+**Schema 3 (Lax-Friedrichs):**
 
 $$
 \frac{u_{j}^{n+1}-\frac{1}{2}(u_{j-1}^{n}+u_{j+1}^{n})}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} = 0
 $$
 
 
-<u>Schema 4 (Lax-Wendroff):</u>
+**Schema 4 (Lax-Wendroff):**
 
 $$
 \frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(u_{j-1}^{n}-2u_{j}^{n}+u_{j+1}^{n}) = 0
