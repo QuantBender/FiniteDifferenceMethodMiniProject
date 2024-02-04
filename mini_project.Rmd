@@ -711,6 +711,166 @@ $$
 
 Utilisons le développement de Taylor pour évaluer la consistance du schéma. On a:
 
+Le developpement de Taylor de $u$ en $(x_j, t^n+\Delta t)$ a l'ordre 2 est:
+
+$$
+\begin{aligned}
+u(x_j, t^n+\Delta t) &= u(x_j, t^n) + \Delta t\frac{\partial u}{\partial t}(x_j, t^n) + \frac{1}{2}(\Delta t)^2 \frac{\partial^2 u}{\partial t^2}(x_j, t^n) + \mathcal{O}((\Delta t)^3)\\
+\end{aligned}
+$$
+
+Or $\frac{\partial u}{\partial t}+a\frac{\partial u}{\partial x}=0$, donc:
+
+$\frac{\partial u}{\partial t} = -a \frac{\partial u}{\partial x}$ et $\frac{\partial^2 u}{\partial t^2} = -a \frac{\partial^2 u}{\partial x \partial t}=a^{2}\frac{\partial^2 u}{\partial x^2}$
+
+D'où:
+
+$$
+\begin{aligned}
+u(x_j, t^n+\Delta t) &= u(x_j, t^n) - a\Delta t\frac{\partial u}{\partial x}(x_j, t^n) + \frac{1}{2}a^{2}(\Delta t)^2 \frac{\partial^2 u}{\partial x^2}(x_j, t^n) + \mathcal{O}((\Delta t)^3)\\
+u_j^{n+1} &= u_j^{n} - a\Delta t\frac{\partial u}{\partial x}|_{j}^{n} + \frac{1}{2}a^{2}(\Delta t)^2 \frac{\partial^2 u}{\partial x^2}|_{j}^{n} + \mathcal{O}((\Delta t)^3)\\
+\frac{\partial u}{\partial x}|_{j}^{n} &=\frac{u_{j+1}^{n}-u_{j}^{n}}{\Delta t} -\frac{a^2}{2}\Delta t\frac{\partial^2 u}{\partial x^2}|_{j}^{n} + \mathcal{O}((\Delta t)^2)\\
+\end{aligned}
+$$
+
+
+Utilisons les developpements de Taylor de $u_{j+1}^{n}$ et $u_{j-1}^{n}$ a l'ordre 3 pour approximer la derivee seconde de $u$ par rapport a $x$:
+
+$$
+\begin{aligned}
+u_{j+1}^{n} &= u_{j}^{n} + \Delta x\frac{\partial u}{\partial x} + \frac{(\Delta x)^2}{2}\frac{\partial^2 u}{\partial x^2} + \frac{(\Delta x)^3}{6}\frac{\partial^3 u}{\partial x^3} + \mathcal{O}((\Delta x)^4)\\
+u_{j-1}^{n} &= u_{j}^{n} - \Delta x\frac{\partial u}{\partial x} + \frac{(\Delta x)^2}{2}\frac{\partial^2 u}{\partial x^2} - \frac{(\Delta x)^3}{6}\frac{\partial^3 u}{\partial x^3} + \mathcal{O}((\Delta x)^4)\\
+\frac{\partial^2 u}{\partial x^2}|_{j}^{n} &=\frac{u_{j+1}^{n}-2u_{j}^{n}+u_{j-1}^{n}}{(\Delta x)^2} + \mathcal{O}((\Delta x))\\
+\end{aligned}
+$$
+On a finalement commme approximation pour la derivee temporelle de $u$:
+
+$$
+\begin{aligned}
+\frac{\partial u}{\partial t}|_{j}^{n} &=\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t}  - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(u_{j-1}^{n}-2u_{j}^{n}+u_{j+1}^{n}) + \mathcal{O}((\Delta t)^2)\\
+\end{aligned}
+$$
+
+En utilisant les developenments de Taylor de $u_{j+1}^{n}$ et $u_{j-1}^{n}$ a l'ordre 2 precedents, on obtient comme pour approximation pour la derivee spatiale:
+
+$$
+\begin{aligned}
+\frac{\partial u}{\partial x}|_{j}^{n} &=\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} + \mathcal{O}((\Delta x)^2)\\
+\end{aligned}
+$$
+
+On obtient alors le schéma numérique:
+
+$$
+\begin{cases}
+\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(u_{j-1}^{n}-2u_{j}^{n}+u_{j+1}^{n}) = 0 &\ \forall x \in ]0, L[; \forall t>0 \\
+u(x, 0) = u_0(x) &\ \forall x \in [0, L]\\
+u(0, t) = u(L, t) \ \text{et} \ \frac{\partial u}{\partial x}(L, t)=0 &\ \forall t > 0
+\end{cases}
+$$
+
+dont l'erreur de troncature est:
+
+$$
+\begin{aligned}
+\text{ET} &= ( \frac{\partial u}{\partial t} + a\frac{\partial u}{\partial x}) -(\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(u_{j-1}^{n}-2u_{j}^{n}+u_{j+1}^{n}))\\
+&= \mathcal{O}(\Delta t)^2 + \mathcal{O}(\Delta x)^2\\
+\end{aligned}
+$$
+
+Nous avons donc un schema d'ordre 2 en temps et d'ordre 2 en espace.
+
+Par definition de la consistance, Un schéma est dit consistant si l'erreur de troncature tend vers 0 lorsque $\Delta t$ et $\Delta x$ tendent vers 0. Soit:
+
+
+$$
+\lim_{\Delta t, \Delta x \to 0} \text{ET} = 0
+$$
+
+
+
+Dans notre cas, on a:
+
+$$
+\lim_{\Delta t, \Delta x \to 0} \text{ET} = \mathcal{O}(\Delta t)^2 + \mathcal{O}(\Delta x)^2
+$$
+
+Or
+
+$$
+|\mathcal{O}(\Delta t)^2| \leq C|\Delta t|^2  \implies \lim_{\Delta t \to 0} \mathcal{O}(\Delta t)^2 = 0
+$$
+
+et
+
+$$
+|\mathcal{O}(\Delta x)^2| \leq C|\Delta x|^2  \implies \lim_{\Delta x \to 0} \mathcal{O}(\Delta x)^2 = 0
+$$
+
+
+D'où:
+
+$$
+\lim_{\Delta t, \Delta x \to 0} \text{ET} = 0
+$$
+
+Par suite, le schéma 4 Lax-Wendroff est consistant.
+
+
+- **Stabilité**
+
+Pour étudier la stabilité du schéma, on utilise la méthode de Von Neumann. On pose:
+
+$$
+u_{j}^{n} = C^{n}e^{i\xi x_{j}}, \text{ avec } x_j = j\Delta x \text{ et } \xi \text{ est le nombre d'onde}
+$$
+
+et on injecte cette solution dans le schéma numérique:
+
+$$
+\begin{aligned}
+\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(u_{j-1}^{n}-2u_{j}^{n}+u_{j+1}^{n}) = 0 & \implies \frac{C^{n+1}e^{i\xi x_{j}}-C^{n}e^{i\xi x_{j}}}{\Delta t} + a\frac{C^{n}e^{i\xi x_{j+1}}-C^{n}e^{i\xi x_{j-1}}}{2\Delta x} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(C^{n}e^{i\xi x_{j-1}}-2C^{n}e^{i\xi x_{j}}+C^{n}e^{i\xi x_{j+1}}) = 0\\
+       & \implies \frac{C^{n+1}e^{i\xi j\Delta x}-C^{n}e^{i\xi j\Delta x}}{\Delta t} + a\frac{e^{i\xi \Delta x}-e^{-i\xi \Delta x}}{2\Delta x}e^{i\xi j\Delta x}C^{n} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(e^{-i\xi \Delta x}-2+e^{i\xi \Delta x})e^{i\xi j\Delta x}C^{n} = 0\\
+       & \implies \frac{C^{n+1}-C^{n}}{\Delta t}e^{i\xi j\Delta x} + a\frac{e^{i\xi \Delta x}-e^{-i\xi \Delta x}}{2\Delta x}C^{n}e^{i\xi j\Delta x} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(e^{-i\xi \Delta x}-2+e^{i\xi \Delta x})C^{n}e^{i\xi j\Delta x} = 0\\
+       & \implies C^{n+1} = C^{n} - \frac{a\Delta t}{\Delta x}(isin(\xi \Delta x))C^{n} + \frac{a^{2}(\Delta t)^2}{(\Delta x)^{2}}(cos(\xi \Delta x)-1)C^{n}\\
+       & \implies C^{n+1} = (1 - i\lambda sin(\xi \Delta x) + \lambda^2(cos(\xi \Delta x)-1))C^{n}, \text{ avec } \lambda = \frac{a\Delta t}{\Delta x}\\
+\end{aligned}
+$$
+
+On doit avoir $|1 - i\lambda sin(\xi \Delta x) + \lambda^2(cos(\xi \Delta x)-1)|\leq 1\  \forall \xi \in \mathbb{R}$
+
+On a:
+
+$$
+\begin{aligned}
+|1 - i\lambda sin(\xi \Delta x) + \lambda^2(cos(\xi \Delta x)-1)|^2 &\leq 1\\
+|1  + \lambda^2(cos(\xi \Delta x)-1) - i\lambda sin(\xi \Delta x)|^2 &\leq 1\\
+(1  + \lambda^2(cos(\xi \Delta x)-1))^2 + (\lambda sin(\xi \Delta x))^2 &\leq 1\\
+1  + 2\lambda^2(cos(\xi \Delta x)-1) + \lambda^4(cos^2(\xi \Delta x)-2cos(\xi \Delta x)+1) + (\lambda^2 sin^2(\xi \Delta x) &\leq 1\\
+1  + 2\lambda^2cos(\xi \Delta x)-2\lambda^2 + \lambda^4cos^2(\xi \Delta x)-2\lambda^4cos(\xi \Delta x)+\lambda^4 + \lambda^2 sin^2(\xi \Delta x) &\leq 1\\
+2\lambda^2cos(\xi \Delta x)-2\lambda^2 + \lambda^4cos^2(\xi \Delta x)-2\lambda^4cos(\xi \Delta x)+\lambda^4 + \lambda^2 sin^2(\xi \Delta x) &\leq 0\\
+2\lambda^2(1-sin^2(\xi \Delta x)) -2\lambda^2 + \lambda^4cos^2(\xi \Delta x)-2\lambda^4cos(\xi \Delta x)+\lambda^4 + \lambda^2 sin^2(\xi \Delta x) &\leq 0\\
+2\lambda^2-2\lambda^2sin^2(\xi \Delta x) -2\lambda^2 + \lambda^4cos^2(\xi \Delta x)-2\lambda^4cos(\xi \Delta x)+\lambda^4 + \lambda^2 sin^2(\xi \Delta x) &\leq 0\\   
+-2\lambda^2sin^2(\xi \Delta x) + \lambda^4cos^2(\xi \Delta x)-2\lambda^4cos(\xi \Delta x)+\lambda^4 + \lambda^2 sin^2(\xi \Delta x) &\leq 0\\
+\lambda^4cos^2(\xi \Delta x)-2\lambda^4cos(\xi \Delta x)+\lambda^4 -2\lambda^2sin^2(\xi \Delta x) + \lambda^2 sin^2(\xi \Delta x) &\leq 0\\
+\lambda^4(1-sin^2(\xi \Delta x))-2\lambda^4cos(\xi \Delta x)+\lambda^4 -\lambda^2sin^2(\xi \Delta x) &\leq 0\\
+\lambda^4 - \lambda^4sin^2(\xi \Delta x)-2\lambda^4cos(\xi \Delta x)+\lambda^4 -\lambda^2sin^2(\xi \Delta x) &\leq 0\\
+2\lambda^4 - 2\lambda^4sin^2(\xi \Delta x)-2\lambda^4cos(\xi \Delta x)-\lambda^2sin^2(\xi \Delta x) &\leq 0\\
+2\lambda^4 -2\lambda^4cos(\xi \Delta x) - 2\lambda^4sin^2(\xi \Delta x)-\lambda^2sin^2(\xi \Delta x) &\leq 0\\
+2\lambda^4(1-cos(\xi \Delta x)) -(2\lambda^2+1)\lambda^2sin^2(\xi \Delta x) &\leq 0\\
+-2\lambda^4(cos(\xi \Delta x)-1) -(2\lambda^2+1)\lambda^2sin^2(\xi \Delta x) &\leq 0\\
+-4\lambda^4sin^2(\frac{\xi \Delta x}{2}) -2\lambda^2(2\lambda^2+1)sin^2\frac{\xi\Delta x}{2}cos^2\frac{\xi\Delta x}{2} &\leq 0 \ (\text{ ce qui est vrai } \forall \xi \in \mathbb{R})\\
+\end{aligned}
+$$
+
+Ainsi, le schéma 4 Lax-Wendroff est incoditionnellement stable.
+
+
+- **Convergence**
+
+Le schema 4 Lax-Wendroff etant consistant et stable; en utilisant le theorème de Lax, on deduit que le schema 4 Lax-Wendroff est convergent.
+
+
 
 3) Implémenter chacun des schémas numériques pour évaluer la solution approchée, puis comparer cette solution avec la solution exacte. (Tracer les solutions aux temps physiques t1 = 2.5 s et t2 = 4.5 s en testant sur deux maillages différents formés de N = 100 et N = 200 points. Interpréter les résultats.
 
