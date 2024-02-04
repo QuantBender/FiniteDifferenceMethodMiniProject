@@ -109,19 +109,19 @@ plt.show()
 Sur chaque courbe caractéristique $(\Gamma): x-at = \xi$, on a:
 
 $$
-du = 0 \Rightarrow u(t, x) =  cte = f(\xi) \leftarrow i.e. \text{ u ne depend que de } \xi 
+du = 0 \Rightarrow u(x, t) =  cte = f(\xi) \leftarrow i.e. \text{ u ne depend que de } \xi 
 $$
 Soit alors 
 
 $$
-u(t, x) = f(x-at)
+u(x, t) = f(x-at)
 $$
 Cette solution doit etre retrouvee aussi pour $t=0$.
 
 Or a $t=0$, on a:
 
 $$
-u(0, x) = u_0(x) = f(x) \Rightarrow f(x) = u_0(x)
+u(x, 0) = u_0(x) = f(x) \Rightarrow f(x) = u_0(x)
 $$
 
 c'est a dire $$f\equiv u_0$$
@@ -129,7 +129,7 @@ c'est a dire $$f\equiv u_0$$
 On obtient finalement la solution exacte du probleme $(E_{1})$:
 
 $$
-u(t, x) = u_0(x-at), \ \forall x \in [0, L], \ \forall t > 0
+u(x, t) = u_0(x-at), \ \forall x \in [0, L], \ \forall t > 0
 $$
 
 
@@ -154,24 +154,31 @@ Utilisons le développement de Taylor pour évaluer la consistance du schéma. O
 
 $$
 \begin{aligned}
-u_{j}^{n+1} &= u_{j}^{n} + \Delta t\frac{\partial u}{\partial t} + O(\Delta t^2)\\
-\frac{\partial u}{\partial t} &=\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + O(\Delta t)
-\end{aligned}
+u_{j}^{n+1} &= u_{j}^{n} + \Delta t\frac{\partial u}{\partial t}|_{j}^{n} + O(\Delta t^2)\\ 
+\frac{\partial u}{\partial t}|_{j}^{n} &=\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + O(\Delta t)
+\end{aligned}  
 $$
-+ Et d'autre part le développement de Taylor de $u_{j+1}^{n}$ et $u_{j-1}^{n}$ à l'ordre 2 :
+
+
+
++ Et d’autre part le développement de Taylor de $u_{j+1}^{n}$ et $u_{j-1}^{n}$ à l’ordre 2 :
 
 $$
 \begin{aligned}
 u_{j+1}^{n} &= u_{j}^{n} + \Delta x\frac{\partial u}{\partial x} + \frac{(\Delta x)^2}{2}\frac{\partial^2 u}{\partial x^2} + O((\Delta x)^3)\\
 u_{j-1}^{n} &= u_{j}^{n} - \Delta x\frac{\partial u}{\partial x} + \frac{(\Delta x)^2}{2}\frac{\partial^2 u}{\partial x^2} + O((\Delta x)^3)\\
-\frac{\partial u}{\partial x} &=\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} + O((\Delta x)^2)\\
-\end{aligned}
+\frac{\partial u}{\partial x}|_{j}^{n} &=\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} + O((\Delta x)^2)\\
+\end{aligned} 
 $$
 
 On obtient alors le schéma numérique:
 
 $$
-\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} = 0
+\begin{cases}
+\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} = 0 &\ \forall x \in ]0, L[; \forall t>0 \\
+u(x, 0) = u_0(x) &\ \forall x \in [0, L]\\
+u(0, t) = u(L, t) \ \text{et} \ \frac{\partial u}{\partial x}(L, t)=0 &\ \forall t > 0
+\end{cases}
 $$
 
 dont l'erreur de troncature est:
@@ -229,19 +236,36 @@ $$
 \begin{aligned}
 \frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} = 0 & \implies \frac{C^{n+1}e^{i\xi x_{j}}-C^{n}e^{i\xi x_{j}}}{\Delta t} + a\frac{C^{n}e^{i\xi x_{j+1}}-C^{n}e^{i\xi x_{j-1}}}{2\Delta x} = 0\\
        & \implies \frac{C^{n+1}e^{i\xi j\Delta x}-C^{n}e^{i\xi j\Delta x}}{\Delta t} + a\frac{C^{n}e^{i\xi (j+1)\Delta x}-C^{n}e^{i\xi (j-1)\Delta x}}{2\Delta x} = 0\\
+       & \implies \frac{C^{n+1}-C^{n}}{\Delta t}e^{i\xi j\Delta x} + a\frac{e^{i\xi \Delta x}-e^{-i\xi \Delta x}}{2\Delta x}C^{n}e^{i\xi j\Delta x} = 0\\
+       & \implies C^{n+1} = C^{n} - \frac{a\Delta t}{\Delta x}sin(\xi \Delta x)C^{n}\\
+       & \implies C^{n+1} = (1 - \frac{a\Delta t}{\Delta x}isin(\xi \Delta x))C^{n}\\
+       & \implies C^{n+1} = (1 - i\lambda sin(\xi \Delta x))C^{n}, \text{ avec } \lambda = \frac{a\Delta t}{\Delta x}\\
+       & \implies C^{n+1} = (1 - i\lambda sin(\xi \Delta x))^{n}C^{0}
 \end{aligned}
 $$
 
 
 
+On doit avoir $|1 - i\lambda sin(\xi \Delta x)|\leq 1\  \forall \xi \in \mathbb{R}$
 
 
+On a:
 
+$$
+\begin{aligned}
+|1 - i\lambda sin(\xi \Delta x)|^2 &\leq 1\\
+1+\lambda^2sin^{2}(\xi \Delta x) &\leq 1\\
+\lambda^2sin^{2}(\xi \Delta x) &\leq 0 \ (\text{  ce qui est absurde})\\
+\end{aligned}
+$$
 
+Ainsi, le schéma 1 centre est instable.
 
+- **Convergence**
 
+En utilisant la contraposee du theoreme de Lax, on a:
 
-
+Le shéma 1 centre n'est pas stable, donc il n'est pas convergent.
 
 
 **Schema 2 (decentre):**
