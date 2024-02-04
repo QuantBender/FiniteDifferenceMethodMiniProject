@@ -277,6 +277,267 @@ $$
 \end{aligned}
 $$
 
+- **Cas a > 0**
+
+    - **Consistance**
+
+Utilisons le développement de Taylor pour évaluer la consistance du schéma. On a:
+
++ D'une part le développement de Taylor de $u_{j}^{n+1}$ à l'ordre 1 :
+
+$$
+\begin{aligned}
+u_{j}^{n+1} &= u_{j}^{n} + \Delta t\frac{\partial u}{\partial t}|_{j}^{n} + O(\Delta t^2)\\
+\frac{\partial u}{\partial t}|_{j}^{n} &=\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + O(\Delta t)
+\end{aligned}
+$$
++ Et d’autre part le développement de Taylor de $u_{j}^{n}$ et $u_{j-1}^{n}$ à l’ordre 1 :
+
+$$
+\begin{aligned}
+u_{j}^{n} &= u_{j}^{n} + \Delta x\frac{\partial u}{\partial x} + O(\Delta x^2)\\
+u_{j-1}^{n} &= u_{j}^{n} - \Delta x\frac{\partial u}{\partial x} + O(\Delta x^2)\\
+\frac{\partial u}{\partial x}|_{j}^{n} &=\frac{u_{j}^{n}-u_{j-1}^{n}}{\Delta x} + O(\Delta x)
+\end{aligned} 
+$$
+
+
+On obtient alors le schéma numérique:
+
+$$
+\begin{cases}
+\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j}^{n}-u_{j-1}^{n}}{\Delta x} = 0 &\ \forall x \in ]0, L[; \forall t>0 \\
+u(x, 0) = u_0(x) &\ \forall x \in [0, L]\\
+u(0, t) = u(L, t) \ \text{et} \ \frac{\partial u}{\partial x}(L, t)=0 &\ \forall t > 0
+\end{cases}
+$$
+
+dont l'erreur de troncature est:
+
+$$
+\begin{aligned}
+\text{ET} &= ( \frac{\partial u}{\partial t} + a\frac{\partial u}{\partial x}) -(\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j}^{n}-u_{j-1}^{n}}{\Delta x})\\
+&= \mathcal{O}(\Delta t) + \mathcal{O}(\Delta x)\\
+\end{aligned}
+$$
+
+Nous avons donc un schema d'ordre 1 en temps et d'ordre 1 en espace.
+
+Par definition de la consistance, Un schéma est dit consistant si l'erreur de troncature tend vers 0 lorsque $\Delta t$ et $\Delta x$ tendent vers 0. Soit:
+
+$$
+\lim_{\Delta t, \Delta x \to 0} \text{ET} = 0 
+$$
+
+Dans notre cas, on a:
+
+$$
+\lim_{\Delta t, \Delta x \to 0} \text{ET} = \mathcal{O}(\Delta t) + \mathcal{O}(\Delta x)
+$$
+
+Or
+
+$$
+|\mathcal{O}(\Delta t)| \leq C|\Delta t|  \implies \lim_{\Delta t \to 0} \mathcal{O}(\Delta t) = 0 
+$$
+
+et
+
+$$
+|\mathcal{O}(\Delta x)| \leq C|\Delta x|  \implies \lim_{\Delta x \to 0} \mathcal{O}(\Delta x) = 0 
+$$
+
+D'où:
+
+$$
+\lim_{\Delta t, \Delta x \to 0} \text{ET} = 0
+$$
+
+Par suite, le schéma 2 décentré est consistant.
+
+    - **Stabilité**
+
+Pour étudier la stabilité du schéma, on utilise la méthode de Von Neumann. On pose:
+
+$$
+u_{j}^{n} = C^{n}e^{i\xi x_{j}}, \text{ avec } x_j = j\Delta x \text{ et } \xi \text{ est le nombre d'onde} 
+$$
+
+et on injecte cette solution dans le schéma numérique:
+
+$$
+\begin{aligned}
+\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j}^{n}-u_{j-1}^{n}}{\Delta x} = 0 & \implies \frac{C^{n+1}e^{i\xi x_{j}}-C^{n}e^{i\xi x_{j}}}{\Delta t} + a\frac{C^{n}e^{i\xi x_{j}}-C^{n}e^{i\xi x_{j-1}}}{\Delta x} = 0\\
+       & \implies \frac{C^{n+1}e^{i\xi j\Delta x}-C^{n}e^{i\xi j\Delta x}}{\Delta t} + a\frac{C^{n}e^{i\xi j\Delta x}-C^{n}e^{i\xi (j-1)\Delta x}}{\Delta x} = 0\\
+       & \implies \frac{C^{n+1}-C^{n}}{\Delta t}e^{i\xi j\Delta x} + a\frac{1-e^{-i\xi \Delta x}}{\Delta x}C^{n}e^{i\xi j\Delta x} = 0\\
+       & \implies C^{n+1} = C^{n} - \frac{a\Delta t}{\Delta x}(1-e^{-i\xi \Delta x})C^{n}\\
+       & \implies C^{n+1} = (1 - \frac{a\Delta t}{\Delta x}(1-e^{-i\xi \Delta x}))C^{n}\\
+       & \implies C^{n+1} = (1 - \lambda (1-e^{-i\xi \Delta x}))C^{n}, \text{ avec } \lambda = \frac{a\Delta t}{\Delta x}\\
+\end{aligned}
+$$
+
+On doit avoir $|1 - \lambda (1-e^{-i\xi \Delta x})|\leq 1\  \forall \xi \in \mathbb{R}$
+
+On a:
+
+$$
+\begin{aligned}
+|1 - \lambda (1-e^{-i\xi \Delta x})|^2 &\leq 1\\
+|1 - \lambda(1-(cos(-\xi\Delta x)+isin(-\xi\Delta x)))|^2 &\leq 1\\
+|1 - \lambda(1-cos(\xi\Delta x)+isin(\xi\Delta x))|^2 &\leq 1\\
+|1 - \lambda+\lambda cos(\xi\Delta x)-i\lambda sin(\xi\Delta x))|^2 &\leq 1\\
+(1 - \lambda+\lambda cos(\xi\Delta x))^2+(\lambda sin(\xi\Delta x))^2 &\leq 1\\
+1 - 2\lambda+\lambda^2 +\lambda^2cos^2(\xi\Delta x)+2(1-\lambda)\lambda cos(\xi\Delta x)+\lambda^2sin^2(\xi\Delta x) &\leq 1\\
+1 - 2\lambda+2\lambda^2 +2(1-\lambda)\lambda cos(\xi\Delta x) &\leq 1\\
+2\lambda^2 - 2\lambda+2(1-\lambda)\lambda cos(\xi\Delta x) &\leq 0\\
+\lambda^2 - \lambda+(1-\lambda)\lambda cos(\xi\Delta x) &\leq 0\\
+\lambda(\lambda-1)-(\lambda-1)\lambda cos(\xi\Delta x) &\leq 0\\
+\lambda(\lambda-1)(1- cos(\xi\Delta x)) &\leq 0\\
+\end{aligned}
+$$
+
+Or $\lambda > 0$ et $1-cos(\xi\Delta x) \geq 0$, on doit donc avoir:
+
+$$
+\begin{aligned}
+\lambda - 1 &\leq 0\\
+\lambda &\leq 1\\
+\lambda=\frac{a\Delta t}{\Delta x} &\leq 1
+\end{aligned}
+$$
+
+Ainsi, le schéma 2 décentré est stable si $\frac{a\Delta t}{\Delta x} \leq 1$.
+
+    - **Convergence**
+
+Le schema 2 décentré etant consistant et conditionnellement stable; en utilisant le theorème de Lax sous les memes conditions de stabilité, on deduit que le schema 2 décentré en amont est convergent lorsque $a>0$.
+
+- **Cas a < 0**
+
+    - **Consistance**
+    
+Utilisons le développement de Taylor pour évaluer la consistance du schéma. On a:
+
++ D'une part le développement de Taylor de $u_{j}^{n+1}$ à l'ordre 1 :
+
+$$
+\begin{aligned}
+u_{j}^{n+1} &= u_{j}^{n} + \Delta t\frac{\partial u}{\partial t}|_{j}^{n} + O(\Delta t^2)\\
+\frac{\partial u}{\partial t}|_{j}^{n} &=\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + O(\Delta t)
+\end{aligned}
+$$
+
++ Et d’autre part le développement de Taylor de $u_{j+1}^{n}$ et $u_{j}^{n}$ à l’ordre 1 :
+
+$$
+\begin{aligned}
+u_{j+1}^{n} &= u_{j}^{n} + \Delta x\frac{\partial u}{\partial x} + O(\Delta x^2)\\
+u_{j}^{n} &= u_{j}^{n} - \Delta x\frac{\partial u}{\partial x} + O(\Delta x^2)\\
+\frac{\partial u}{\partial x}|_{j}^{n} &=\frac{u_{j+1}^{n}-u_{j}^{n}}{\Delta x} + O(\Delta x)
+\end{aligned}
+$$
+
+On obtient alors le schéma numérique:
+
+$$
+\begin{cases}
+\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j}^{n}}{\Delta x} = 0 &\ \forall x \in ]0, L[; \forall t>0 \\
+u(x, 0) = u_0(x) &\ \forall x \in [0, L]\\
+u(0, t) = u(L, t) \ \text{et} \ \frac{\partial u}{\partial x}(L, t)=0 &\ \forall t > 0
+\end{cases}
+$$
+
+dont l'erreur de troncature est:
+
+$$
+\begin{aligned}
+\text{ET} &= ( \frac{\partial u}{\partial t} + a\frac{\partial u}{\partial x}) -(\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j}^{n}}{\Delta x})\\
+&= \mathcal{O}(\Delta t) + \mathcal{O}(\Delta x)\\
+\end{aligned}
+$$
+
+Nous avons donc un schema d'ordre 1 en temps et d'ordre 1 en espace.
+
+Par definition de la consistance, un schéma est dit consistant si l'erreur de troncature tend vers 0 lorsque $\Delta t$ et $\Delta x$ tendent vers 0. Soit:
+
+$$
+\lim_{\Delta t, \Delta x \to 0} \text{ET} = 0
+$$
+
+
+Dans notre cas, on a:
+
+$$
+\lim_{\Delta t, \Delta x \to 0} \text{ET} = \mathcal{O}(\Delta t) + \mathcal{O}(\Delta x)
+$$
+
+Or
+
+$$
+|\mathcal{O}(\Delta t)| \leq C|\Delta t|  \implies \lim_{\Delta t \to 0} \mathcal{O}(\Delta t) = 0
+$$
+
+et
+
+$$
+|\mathcal{O}(\Delta x)| \leq C|\Delta x|  \implies \lim_{\Delta x \to 0} \mathcal{O}(\Delta x) = 0
+$$
+
+D'où:
+
+$$
+\lim_{\Delta t, \Delta x \to 0} \text{ET} = 0
+$$
+
+Par suite, le schéma 2 décentré est consistant.
+
+    - **Stabilité**
+    
+Pour étudier la stabilité du schéma, on utilise la méthode de Von Neumann. On pose:
+
+$$
+u_{j}^{n} = C^{n}e^{i\xi x_{j}}, \text{ avec } x_j = j\Delta x \text{ et } \xi \text{ est le nombre d'onde}
+$$
+
+et on injecte cette solution dans le schéma numérique:
+
+$$
+\begin{aligned}
+\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j}^{n}}{\Delta x} = 0 & \implies \frac{C^{n+1}e^{i\xi x_{j}}-C^{n}e^{i\xi x_{j}}}{\Delta t} + a\frac{C^{n}e^{i\xi x_{j+1}}-C^{n}e^{i\xi x_{j}}}{\Delta x} = 0\\
+       & \implies \frac{C^{n+1}e^{i\xi j\Delta x}-C^{n}e^{i\xi j\Delta x}}{\Delta t} + a\frac{C^{n}e^{i\xi (j+1)\Delta x}-C^{n}e^{i\xi j\Delta x}}{\Delta x} = 0\\
+       & \implies \frac{C^{n+1}-C^{n}}{\Delta t}e^{i\xi j\Delta x} + a\frac{e^{i\xi \Delta x}-1}{\Delta x}C^{n}e^{i\xi j\Delta x} = 0\\
+       & \implies C^{n+1} = C^{n} - \frac{a\Delta t}{\Delta x}(1-e^{i\xi \Delta x})C^{n}\\
+       & \implies C^{n+1} = (1 - \lambda(1-e^{i\xi \Delta x}))C^{n}, \text{ avec } \lambda = \frac{a\Delta t}{\Delta x}\\
+\end{aligned}
+$$
+
+On doit avoir $|1 - \lambda(1-e^{i\xi \Delta x})|\leq 1\  \forall \xi \in \mathbb{R}$
+
+On a:
+
+$$
+\begin{aligned}
+|1 - \lambda(1-e^{i\xi \Delta x})|^2 &\leq 1\\
+|1 - \lambda(1-cos(\xi\Delta x)+isin(\xi\Delta x))|^2 &\leq 1\\
+|1 - \lambda+\lambda cos(\xi\Delta x)-i\lambda sin(\xi\Delta x))|^2 &\leq 1\\
+(1 - \lambda+\lambda cos(\xi\Delta x))^2+(\lambda sin(\xi\Delta x))^2 &\leq 1\\
+1 - 2\lambda+\lambda^2 +\lambda^2cos^2(\xi\Delta x)+2(1-\lambda)\lambda cos(\xi\Delta x)+\lambda^2sin^2(\xi\Delta x) &\leq 1\\
+1 - 2\lambda+2\lambda^2 +2(1-\lambda)\lambda cos(\xi\Delta x) &\leq 1\\
+2\lambda^2 - 2\lambda+2(1-\lambda)\lambda cos(\xi\Delta x) &\leq 0\\
+\lambda^2 - \lambda+(1-\lambda)\lambda cos(\xi\Delta x) &\leq 0\\
+\lambda(\lambda-1)-(\lambda-1)\lambda cos(\xi\Delta x) &\leq 0\\
+\lambda(\lambda-1)(1- cos(\xi\Delta x)) &\leq 0\\
+\end{aligned}
+$$
+
+
+Or $\lambda < 0$ et $1-cos(\xi\Delta x) \geq 0$,  alors, le schéma 2 décentré en aval est inconditionnellement stable.
+
+    - **Convergence**
+    
+Le schema 2 décentré etant consistant et stable; en utilisant le theorème de Lax, on deduit que le schema 2 décentré en aval ($a<0$) est convergent.
+
+
 **Schema 3 (Lax-Friedrichs):**
 
 $$
