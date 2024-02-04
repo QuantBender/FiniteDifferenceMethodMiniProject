@@ -146,6 +146,103 @@ $$
 $$
 
 
+- **Consistance**
+
+Utilisons le développement de Taylor pour évaluer la consistance du schéma. On a:
+
++ D'une part le développement de Taylor de $u_{j}^{n+1}$ à l'ordre 1 :
+
+$$
+\begin{aligned}
+u_{j}^{n+1} &= u_{j}^{n} + \Delta t\frac{\partial u}{\partial t} + O(\Delta t^2)\\
+\frac{\partial u}{\partial t} &=\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + O(\Delta t)
+\end{aligned}
+$$
++ Et d'autre part le développement de Taylor de $u_{j+1}^{n}$ et $u_{j-1}^{n}$ à l'ordre 2 :
+
+$$
+\begin{aligned}
+u_{j+1}^{n} &= u_{j}^{n} + \Delta x\frac{\partial u}{\partial x} + \frac{(\Delta x)^2}{2}\frac{\partial^2 u}{\partial x^2} + O((\Delta x)^3)\\
+u_{j-1}^{n} &= u_{j}^{n} - \Delta x\frac{\partial u}{\partial x} + \frac{(\Delta x)^2}{2}\frac{\partial^2 u}{\partial x^2} + O((\Delta x)^3)\\
+\frac{\partial u}{\partial x} &=\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} + O((\Delta x)^2)\\
+\end{aligned}
+$$
+
+On obtient alors le schéma numérique:
+
+$$
+\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} = 0
+$$
+
+dont l'erreur de troncature est:
+
+$$
+\begin{aligned}
+\text{ET} &= ( \frac{\partial u}{\partial t} + a\frac{\partial u}{\partial x}) -(\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x})\\
+&= \mathcal{O}(\Delta t) + \mathcal{O}((\Delta x)^2)\\
+\end{aligned}
+$$
+
+Nous avons donc un schema d'ordre 1 en temps et d'ordre 2 en espace. 
+Par definition de la consistance, Un schéma est dit consistant si l'erreur de troncature tend vers 0 lorsque $\Delta t$ et $\Delta x$ tendent vers 0. Soit:
+
+$$
+\lim_{\Delta t, \Delta x \to 0} \text{ET} = 0
+$$
+
+Dans notre cas, on a:
+
+$$
+\lim_{\Delta t, \Delta x \to 0} \text{ET} = \mathcal{O}(\Delta t) + \mathcal{O}((\Delta x)^2)
+$$
+
+Or 
+
+$$
+|\mathcal{O}(\Delta t)| \leq C|\Delta t|  \implies \lim_{\Delta t \to 0} \mathcal{O}(\Delta t) = 0
+$$
+et
+
+$$
+|\mathcal{O}((\Delta x)^2)| \leq C|\Delta x|^2  \implies \lim_{\Delta x \to 0} \mathcal{O}((\Delta x)^2) = 0
+$$
+
+D'où:
+
+$$
+\lim_{\Delta t, \Delta x \to 0} \text{ET} = 0
+$$
+
+Par suite, le schéma 1 centre est consistant.
+
+
+- **Stabilité**
+
+Pour étudier la stabilité du schéma, on utilise la méthode de Von Neumann. On pose:
+
+$$
+u_{j}^{n} = C^{n}e^{i\xi x_{j}}, \text{ avec } x_j = j\Delta x \text{ et } \xi \text{ est le nombre d'onde}
+$$
+et on injecte cette solution dans le schéma numérique:
+
+$$
+\begin{aligned}
+\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} = 0 & \implies \frac{C^{n+1}e^{i\xi x_{j}}-C^{n}e^{i\xi x_{j}}}{\Delta t} + a\frac{C^{n}e^{i\xi x_{j+1}}-C^{n}e^{i\xi x_{j-1}}}{2\Delta x} = 0\\
+       & \implies \frac{C^{n+1}e^{i\xi j\Delta x}-C^{n}e^{i\xi j\Delta x}}{\Delta t} + a\frac{C^{n}e^{i\xi (j+1)\Delta x}-C^{n}e^{i\xi (j-1)\Delta x}}{2\Delta x} = 0\\
+\end{aligned}
+$$
+
+
+
+
+
+
+
+
+
+
+
+
 
 **Schema 2 (decentre):**
 
