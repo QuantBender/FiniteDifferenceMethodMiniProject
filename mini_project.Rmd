@@ -353,9 +353,10 @@ $$
 \lim_{\Delta t, \Delta x \to 0} \text{ET} = 0
 $$
 
-Par suite, le schéma 2 décentré est consistant.
+Par suite, le schéma 2 décentré en amont est consistant.
 
-    - **Stabilité**
+
+- **Stabilité**
 
 Pour étudier la stabilité du schéma, on utilise la méthode de Von Neumann. On pose:
 
@@ -377,6 +378,8 @@ $$
 $$
 
 On doit avoir $|1 - \lambda (1-e^{-i\xi \Delta x})|\leq 1\  \forall \xi \in \mathbb{R}$
+
+\newpage
 
 On a:
 
@@ -406,11 +409,11 @@ $$
 \end{aligned}
 $$
 
-Ainsi, le schéma 2 décentré est stable si $\frac{a\Delta t}{\Delta x} \leq 1$.
+Ainsi, le schéma 2 décentré en amont est stable si $\frac{a\Delta t}{\Delta x} \leq 1$.
 
-    - **Convergence**
+- **Convergence**
 
-Le schema 2 décentré etant consistant et conditionnellement stable; en utilisant le theorème de Lax sous les memes conditions de stabilité, on deduit que le schema 2 décentré en amont est convergent lorsque $a>0$.
+Le schema 2 décentré etant consistant et conditionnellement stable; en utilisant le theorème de Lax sous les memes conditions de stabilité, on deduit que le schema 2 décentré en amont($a>0$) est convergent.
 
 - **Cas a < 0**
 
@@ -489,15 +492,19 @@ $$
 \lim_{\Delta t, \Delta x \to 0} \text{ET} = 0
 $$
 
-Par suite, le schéma 2 décentré est consistant.
+Par suite, le schéma 2 décentré en aval est consistant.
 
-    - **Stabilité**
+
+- **Stabilité**
+
     
 Pour étudier la stabilité du schéma, on utilise la méthode de Von Neumann. On pose:
 
 $$
 u_{j}^{n} = C^{n}e^{i\xi x_{j}}, \text{ avec } x_j = j\Delta x \text{ et } \xi \text{ est le nombre d'onde}
 $$
+
+\newpage
 
 et on injecte cette solution dans le schéma numérique:
 
@@ -512,6 +519,7 @@ $$
 $$
 
 On doit avoir $|1 - \lambda(1-e^{i\xi \Delta x})|\leq 1\  \forall \xi \in \mathbb{R}$
+
 
 On a:
 
@@ -533,7 +541,8 @@ $$
 
 Or $\lambda < 0$ et $1-cos(\xi\Delta x) \geq 0$,  alors, le schéma 2 décentré en aval est inconditionnellement stable.
 
-    - **Convergence**
+
+- **Convergence**
     
 Le schema 2 décentré etant consistant et stable; en utilisant le theorème de Lax, on deduit que le schema 2 décentré en aval ($a<0$) est convergent.
 
@@ -543,6 +552,14 @@ Le schema 2 décentré etant consistant et stable; en utilisant le theorème de 
 $$
 \frac{u_{j}^{n+1}-\frac{1}{2}(u_{j-1}^{n}+u_{j+1}^{n})}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} = 0
 $$
+
+- **Consistance**
+
+
+
+
+
+
 
 
 **Schema 4 (Lax-Wendroff):**
