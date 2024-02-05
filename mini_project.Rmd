@@ -513,33 +513,33 @@ $$
 \frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j}^{n}}{\Delta x} = 0 & \implies \frac{C^{n+1}e^{i\xi x_{j}}-C^{n}e^{i\xi x_{j}}}{\Delta t} + a\frac{C^{n}e^{i\xi x_{j+1}}-C^{n}e^{i\xi x_{j}}}{\Delta x} = 0\\
        & \implies \frac{C^{n+1}e^{i\xi j\Delta x}-C^{n}e^{i\xi j\Delta x}}{\Delta t} + a\frac{C^{n}e^{i\xi (j+1)\Delta x}-C^{n}e^{i\xi j\Delta x}}{\Delta x} = 0\\
        & \implies \frac{C^{n+1}-C^{n}}{\Delta t}e^{i\xi j\Delta x} + a\frac{e^{i\xi \Delta x}-1}{\Delta x}C^{n}e^{i\xi j\Delta x} = 0\\
-       & \implies C^{n+1} = C^{n} - \frac{a\Delta t}{\Delta x}(1-e^{i\xi \Delta x})C^{n}\\
-       & \implies C^{n+1} = (1 - \lambda(1-e^{i\xi \Delta x}))C^{n}, \text{ avec } \lambda = \frac{a\Delta t}{\Delta x}\\
+       & \implies C^{n+1} = C^{n} - \frac{a\Delta t}{\Delta x}(e^{i\xi \Delta x}-1)C^{n}\\
+       & \implies C^{n+1} = (1 - \lambda(e^{i\xi \Delta x}-1))C^{n}, \text{ avec } \lambda = \frac{a\Delta t}{\Delta x}\\
 \end{aligned}
 $$
 
-On doit avoir $|1 - \lambda(1-e^{i\xi \Delta x})|\leq 1\  \forall \xi \in \mathbb{R}$
+On doit avoir $|1 - \lambda(e^{i\xi \Delta x}-1)|\leq 1\  \forall \xi \in \mathbb{R}$
 
 
 On a:
 
 $$
 \begin{aligned}
-|1 - \lambda(1-e^{i\xi \Delta x})|^2 &\leq 1\\
-|1 - \lambda(1-cos(\xi\Delta x)+isin(\xi\Delta x))|^2 &\leq 1\\
-|1 - \lambda+\lambda cos(\xi\Delta x)-i\lambda sin(\xi\Delta x))|^2 &\leq 1\\
-(1 - \lambda+\lambda cos(\xi\Delta x))^2+(\lambda sin(\xi\Delta x))^2 &\leq 1\\
-1 - 2\lambda+\lambda^2 +\lambda^2cos^2(\xi\Delta x)+2(1-\lambda)\lambda cos(\xi\Delta x)+\lambda^2sin^2(\xi\Delta x) &\leq 1\\
-1 - 2\lambda+2\lambda^2 +2(1-\lambda)\lambda cos(\xi\Delta x) &\leq 1\\
-2\lambda^2 - 2\lambda+2(1-\lambda)\lambda cos(\xi\Delta x) &\leq 0\\
-\lambda^2 - \lambda+(1-\lambda)\lambda cos(\xi\Delta x) &\leq 0\\
-\lambda(\lambda-1)-(\lambda-1)\lambda cos(\xi\Delta x) &\leq 0\\
-\lambda(\lambda-1)(1- cos(\xi\Delta x)) &\leq 0\\
+|1 - \lambda(e^{i\xi \Delta x}-1)|^2 &\leq 1\\
+|1 - \lambda(cos(\xi\Delta x)+isin(\xi\Delta x)-1)|^2 &\leq 1\\
+|1 - \lambda - \lambda cos(\xi\Delta x)-i\lambda sin(\xi\Delta x)|^2 &\leq 1\\
+(1 - \lambda)^2 + \lambda^2cos^2(\xi\Delta x)-2(1 - \lambda)\lambda cos(\xi\Delta x)+\lambda^2sin^2(\xi\Delta x) &\leq 1\\
+1 - 2\lambda+\lambda^2 +\lambda^2cos^2(\xi\Delta x)-2(1 - \lambda)\lambda cos(\xi\Delta x)+\lambda^2sin^2(\xi\Delta x) &\leq 1\\
+1 - 2\lambda+2\lambda^2 +2\lambda (\lambda-1)cos(\xi\Delta x) &\leq 1\\
+2\lambda^2 - 2\lambda+2\lambda (\lambda-1)cos(\xi\Delta x) &\leq 0\\
+2\lambda(\lambda-1) +2\lambda (\lambda-1)cos(\xi\Delta x) &\leq 0\\
+2\lambda(\lambda-1)(1 + cos(\xi\Delta x)) &\leq 0\\
+4\lambda(\lambda -1)cos^2\frac{\xi\Delta x}{2} &\leq 0\\
 \end{aligned}
 $$
 
 
-Or $\lambda < 0$ et $1-cos(\xi\Delta x) \geq 0$,  alors, le schéma 2 décentré en aval est inconditionnellement stable.
+Or $\lambda < 0$,  alors, le schéma 2 décentré en aval est inconditionnellement stable.
 
 
 - **Convergence**
@@ -878,14 +878,659 @@ Le schema 4 Lax-Wendroff etant consistant et stable; en utilisant le theorème d
 
 3) Implémenter chacun des schémas numériques pour évaluer la solution approchée, puis comparer cette solution avec la solution exacte. (Tracer les solutions aux temps physiques t1 = 2.5 s et t2 = 4.5 s en testant sur deux maillages différents formés de N = 100 et N = 200 points. Interpréter les résultats.
 
+- **Schema 1 (centré):**
+
+Schema numerique:
+
+$$
+\begin{cases}
+u_{j}^{n+1} = u_{j}^{n} - \frac{a\Delta t}{2\Delta x}(u_{j+1}^{n}-u_{j-1}^{n}) &\ \forall x \in ]0, L[; \forall t>0 \\
+u(x, 0) = u_0(x) &\ \forall x \in [0, L]\\
+u(0, t) = u(L, t) \ \text{et} \ \frac{\partial u}{\partial x}(L, t)=0 &\ \forall t > 0
+\end{cases}
+$$
+```{python, message=FALSE, warning=FALSE, echo=FALSE}
+import numpy as np
+import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings("ignore")
+
+L = 10
+a = 2
+N = 100
+CFL = 0.99
+dx = L/(N-1)
+dt = round(CFL*dx/a, 2)
+
+x = np.linspace(0, L, N)
+
+u0 = np.zeros(N)
+u0[int(3/dx):int(4/dx)] = 1
+
+u = u0.copy()
+un = np.zeros(N)
+
+t = 0
+t1 = 2.5
+t2 = 4.5
+
+fig, axs = plt.subplots(1, 3, figsize=(12, 5))  
+
+while t < 5:
+    if t == 0:
+        _=axs[0].plot(x, u, label='t = 0 s')
+    elif t == t1:
+        _=axs[1].plot(x, u, label='t = 2.5 s')
+    elif t == t2:
+        _+axs[2].plot(x, u, label='t = 4.5 s')
+    un = u.copy()
+    for j in range(1, N-1):
+        u[j] = un[j] - a*dt/(2*dx)*(un[j+1]-un[j-1])
+    u[0] = u[-1]
+    u[-1] = u[-2]
+
+    t = round(t+dt, 2)
+
+_=axs[0].legend()
+_=axs[1].legend()
+_=axs[2].legend()
+
+for ax in axs:
+    _=ax.axhline(0, color='black')
+    _=ax.axvline(0, color='black')
+    _=ax.set_xlabel('Temps')
+    _=ax.set_ylabel('u(x, t)')
+
+_=plt.suptitle("Equation du transport, schema centre (N=100)")
+plt.tight_layout()
+plt.show()
+```
+
+
+```{python, message=FALSE, warning=FALSE, echo=FALSE}
+L = 10
+a = 2
+N = 200
+CFL = 0.199
+dx = L/(N-1)
+dt = round(CFL*dx/a, 2)
+
+x = np.linspace(0, L, N)
+
+u0 = np.zeros(N)
+u0[int(3/dx):int(4/dx)] = 1
+
+u = u0.copy()
+un = np.zeros(N)
+
+t = 0
+t1 = 2.5
+t2 = 4.5
+
+fig, axs = plt.subplots(1, 3, figsize=(12, 5))
+
+while t < 5:
+    if t == 0:
+        _=axs[0].plot(x, u, label='t = 0 s')
+    elif t == t1:
+        _=axs[1].plot(x, u, label='t = 2.5 s')
+    elif t == t2:
+        _+axs[2].plot(x, u, label='t = 4.5 s')
+    un = u.copy()
+    for j in range(1, N-1):
+        u[j] = un[j] - a*dt/(2*dx)*(un[j+1]-un[j-1])
+    u[0] = u[-1]
+    u[-1] = u[-2]
+
+    t = round(t+dt, 2)
+    
+_=axs[0].legend()
+_=axs[1].legend()
+_=axs[2].legend()
+
+for ax in axs:
+    _=ax.axhline(0, color='black')
+    _=ax.axvline(0, color='black')
+    _=ax.set_xlabel('Temps')
+    _=ax.set_ylabel('u(x, t)')
+    
+_=plt.suptitle("Equation du transport, schema centre (N=200)")
+plt.tight_layout()
+plt.show()
+```
+
+
+On remarque que pour le schema centre, la solution numerique est instable pour $N=100$ et $N=200$.
+
+\newpage
+
+- **Schema 2 (decentre):**
+
+Nous sommes dans le cas ou $a > 0$
+
+Schema numerique:
+
+$$
+\begin{cases}
+u_{j}^{n+1} = u_{j}^{n} - \frac{a\Delta t}{\Delta x}(u_{j}^{n}-u_{j-1}^{n}) &\ \forall x \in ]0, L[; \forall t>0 \\
+u(x, 0) = u_0(x) &\ \forall x \in [0, L]\\
+u(0, t) = u(L, t) \ \text{et} \ \frac{\partial u}{\partial x}(L, t)=0 &\ \forall t > 0 
+\end{cases}
+$$
+
+```{python, message=FALSE, warning=FALSE, echo=FALSE}
+N = 100
+CFL = 0.99
+dx = L/(N-1)
+dt = round(CFL*dx/a, 2)
+
+x = np.linspace(0, L, N)
+
+u0 = np.zeros(N)
+u0[int(3/dx):int(4/dx)] = 1
+
+u = u0.copy()
+un = np.zeros(N)
+
+t = 0
+
+fig, axs = plt.subplots(1, 3, figsize=(12, 5))
+
+while t < 5:
+    if t == 0:
+        _=axs[0].plot(x, u, label='t = 0 s')
+    elif t == t1:
+        _=axs[1].plot(x, u, label='t = 2.5 s')
+    elif t == t2:
+        _+axs[2].plot(x, u, label='t = 4.5 s')
+    un = u.copy()
+    for j in range(1, N):
+        u[j] = un[j] - a*dt/dx*(un[j]-un[j-1])
+    u[0] = u[-1]
+    u[-1] = u[-2]
+    
+    t = round(t+dt, 2)
+      
+_=axs[0].legend()
+_=axs[1].legend()
+_=axs[2].legend()
+
+for ax in axs:
+    _=ax.axhline(0, color='black')
+    _=ax.axvline(0, color='black')
+    _=ax.set_xlabel('Temps')
+    _=ax.set_ylabel('u(x, t)')
+    
+_=plt.suptitle("Equation du transport, schema decentre en amont(a>0), N=100")
+plt.tight_layout()
+plt.show()
+```
+
+
+```{python, message=FALSE, warning=FALSE, echo=FALSE}
+N = 200
+CFL = 0.199
+dx = L/(N-1)
+dt = round(CFL*dx/a, 2)
+
+x = np.linspace(0, L, N)
+
+u0 = np.zeros(N)
+u0[int(3/dx):int(4/dx)] = 1
+
+u = u0.copy()
+un = np.zeros(N)
+
+t = 0
+
+fig, axs = plt.subplots(1, 3, figsize=(12, 5))
+
+while t < 5:
+    if t == 0:
+        _=axs[0].plot(x, u, label='t = 0 s')
+    elif t == t1:
+        _=axs[1].plot(x, u, label='t = 2.5 s')
+    elif t == t2:
+        _+axs[2].plot(x, u, label='t = 4.5 s')
+    un = u.copy()
+    for j in range(1, N):
+        u[j] = un[j] - a*dt/dx*(un[j]-un[j-1])
+    u[0] = u[-1]
+    u[-1] = u[-2]
+    
+    t = round(t+dt, 2)
+    
+_=axs[0].legend()
+_=axs[1].legend()
+_=axs[2].legend()
+
+for ax in axs:
+    _=ax.axhline(0, color='black')
+    _=ax.axvline(0, color='black')
+    _=ax.set_xlabel('Temps')
+    _=ax.set_ylabel('u(x, t)')
+    
+_=plt.suptitle("Equation du transport, schema decentre en amont(a>0), N=200")
+plt.tight_layout()
+plt.show()
+```
+
+On remarque que pour le schema decentre en amont, la solution numerique est stable pour $N=100$ et $N=200$. On observe juste une faible diffusion numerique.
+
+
+\newpage 
+
+
+- **Schema 3 (Lax-Friedrichs):**
+
+Schema numerique:
+
+$$
+\begin{cases}
+u_{j}^{n+1} = \frac{1}{2}(u_{j-1}^{n}+u_{j+1}^{n}) - \frac{a\Delta t}{2\Delta x}(u_{j+1}^{n}-u_{j-1}^{n}) &\ \forall x \in ]0, L[; \forall t>0 \\
+u(x, 0) = u_0(x) &\ \forall x \in [0, L]\\
+u(0, t) = u(L, t) \ \text{et} \ \frac{\partial u}{\partial x}(L, t)=0 &\ \forall t > 0
+\end{cases}
+$$
+
+
+```{python, message=FALSE, warning=FALSE, echo=FALSE}
+N = 100
+CFL = 0.99
+dx = L/(N-1)
+dt = round(CFL*dx/a, 2)
+
+x = np.linspace(0, L, N)
+
+u0 = np.zeros(N)
+u0[int(3/dx):int(4/dx)] = 1
+
+
+
+u = u0.copy()
+un = np.zeros(N)
+
+t = 0
+
+fig, axs = plt.subplots(1, 3, figsize=(12, 5))
+
+while t < 5:
+    if t == 0:
+        _=axs[0].plot(x, u, label='t = 0 s')
+    elif t == t1:
+        _=axs[1].plot(x, u, label='t = 2.5 s')
+    elif t == t2:
+        _+axs[2].plot(x, u, label='t = 4.5 s')
+    un = u.copy()
+    for j in range(1, N-1):
+        u[j] = 0.5*(un[j-1]+un[j+1]) - a*dt/(2*dx)*(un[j+1]-un[j-1])
+    u[0] = u[-1]
+    u[-1] = u[-2]
+
+    t = round(t+dt, 2)
+    
+_=axs[0].legend()
+_=axs[1].legend()
+_=axs[2].legend()
+
+for ax in axs:
+    _=ax.axhline(0, color='black')
+    _=ax.axvline(0, color='black')
+    _=ax.set_xlabel('Temps')
+    _=ax.set_ylabel('u(x, t)')
+    
+_=plt.suptitle("Equation du transport, schema Lax-Friedrichs")
+plt.tight_layout()
+plt.show()
+```
+
+
+```{python, message=FALSE, warning=FALSE, echo=FALSE}
+N = 200
+CFL = 0.199
+dx = L/(N-1)
+dt = round(CFL*dx/a, 2)
+
+x = np.linspace(0, L, N)
+
+u0 = np.zeros(N)
+u0[int(3/dx):int(4/dx)] = 1
+
+u = u0.copy()
+
+un = np.zeros(N)
+
+t = 0
+
+fig, axs = plt.subplots(1, 3, figsize=(12, 5))
+
+while t < 5:
+    if t == 0:
+        _=axs[0].plot(x, u, label='t = 0 s')
+    elif t == t1:
+        _=axs[1].plot(x, u, label='t = 2.5 s')
+    elif t == t2:
+        _+axs[2].plot(x, u, label='t = 4.5 s')
+    un = u.copy()
+    for j in range(1, N-1):
+        u[j] = 0.5*(un[j-1]+un[j+1]) - a*dt/(2*dx)*(un[j+1]-un[j-1])
+    u[0] = u[-1]
+    u[-1] = u[-2]
+
+    t = round(t+dt, 2)
+    
+_=axs[0].legend()
+_=axs[1].legend()
+_=axs[2].legend()
+
+for ax in axs:
+    _=ax.axhline(0, color='black')
+    _=ax.axvline(0, color='black')
+    _=ax.set_xlabel('Temps')
+    _=ax.set_ylabel('u(x, t)')
+    
+_=plt.suptitle("Equation du transport, schema Lax-Friedrichs")
+plt.tight_layout()
+plt.show()
+```
+
+On remarque que pour le schema Lax-Friedrichs, la solution numerique est stable pour $N=100$ et $N=200$. On observe juste une faible diffusion numerique, davantage remarquable a t=4.5s.
+
+
+\newpage
+
+
+- **Schema 4 (Lax-Wendroff):**
+
+Schema numerique:
+
+$$
+\begin{cases}
+u_{j}^{n+1} = u_{j}^{n} - \frac{a\Delta t}{\Delta x}(u_{j+1}^{n}-u_{j-1}^{n}) + \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(u_{j-1}^{n}-2u_{j}^{n}+u_{j+1}^{n}) &\ \forall x \in ]0, L[; \forall t>0 \\
+u(x, 0) = u_0(x) &\ \forall x \in [0, L]\\
+u(0, t) = u(L, t) \ \text{et} \ \frac{\partial u}{\partial x}(L, t)=0 &\ \forall t > 0
+\end{cases}
+$$
+
+
+```{python, message=FALSE, warning=FALSE, echo=FALSE}
+
+N = 100
+CFL = 0.99
+dx = L/(N-1)
+dt = round(CFL*dx/a, 2)
+
+x = np.linspace(0, L, N)
+
+u0 = np.zeros(N)
+u0[int(3/dx):int(4/dx)] = 1
+
+
+
+u = u0.copy()
+un = np.zeros(N)
+
+t = 0
+
+fig, axs = plt.subplots(1, 3, figsize=(12, 5))
+
+while t < 5:
+    if t == 0:
+        _=axs[0].plot(x, u, label='t = 0 s')
+    elif t == t1:
+        _=axs[1].plot(x, u, label='t = 2.5 s')
+    elif t == t2:
+        _+axs[2].plot(x, u, label='t = 4.5 s')
+    un = u.copy()
+    for j in range(1, N-1):
+        u[j] = un[j] - a*dt/dx*(un[j]-un[j-1]) + a**2*dt/(2*dx**2)*(un[j-1]-2*un[j]+un[j+1])
+    u[0] = u[-1]
+    u[-1] = u[-2]
+    
+    t = round(t+dt, 2)
+    
+_=axs[0].legend()
+_=axs[1].legend()
+_=axs[2].legend()
+
+for ax in axs:
+    _=ax.axhline(0, color='black')
+    _=ax.axvline(0, color='black')
+    _=ax.set_xlabel('Temps')
+    _=ax.set_ylabel('u(x, t)')
+    
+_=plt.suptitle("Equation du transport, schema Lax-Wendroff")
+plt.tight_layout()
+plt.show()
+```
+
+
+
+```{python, message=FALSE, warning=FALSE, echo=FALSE}
+N = 200
+CFL = 0.199
+dx = L/(N-1)
+dt = round(CFL*dx/a, 2)
+
+x = np.linspace(0, L, N)
+
+u0 = np.zeros(N)
+u0[int(3/dx):int(4/dx)] = 1
+
+u = u0.copy()
+un = np.zeros(N)
+
+t = 0
+
+fig, axs = plt.subplots(1, 3, figsize=(12, 5))
+
+while t < 5:
+    if t == 0:
+        _=axs[0].plot(x, u, label='t = 0 s')
+    elif t == t1:
+        _=axs[1].plot(x, u, label='t = 2.5 s')
+    elif t == t2:
+        _+axs[2].plot(x, u, label='t = 4.5 s')
+    un = u.copy()
+    for j in range(1, N-1):
+        u[j] = un[j] - a*dt/dx*(un[j]-un[j-1]) + a**2*dt/(2*dx**2)*(un[j-1]-2*un[j]+un[j+1])
+    u[0] = u[-1]
+    u[-1] = u[-2]
+    
+    t = round(t+dt, 2)
+    
+_=axs[0].legend()
+_=axs[1].legend()
+_=axs[2].legend()
+
+for ax in axs:
+    _=ax.axhline(0, color='black')
+    _=ax.axvline(0, color='black')
+    _=ax.set_xlabel('Temps')
+    _=ax.set_ylabel('u(x, t)')
+    
+_=plt.suptitle("Equation du transport, schema Lax-Wendroff")
+plt.tight_layout()
+plt.show()
+```
+
+
+
+On remarque que pour le schema Lax-Wendroff, la solution numerique est instable pour $N=100$ et $N=200$.
+
+
+
+\newpage
 
 4) Evaluer l’erreur en norme $L^1$ de la solution numérique obtenue par chaque schéma au temps $t_1 = 2.5 s$ et pour N = 100. Interpréter.
+
+
+```{python, message=FALSE, warning=FALSE, echo=FALSE}
+# Schema 1 (centré)
+L = 10
+a = 2
+N = 100
+CFL = 0.99
+dx = L/(N-1)
+dt = round(CFL*dx/a, 2)
+
+x = np.linspace(0, L, N)
+
+u0 = np.zeros(N)
+
+u0[int(3/dx):int(4/dx)] = 1
+
+u = u0.copy()
+
+un = np.zeros(N)
+
+t = 0
+
+while t < 2.5:
+    un = u.copy()
+    for j in range(1, N-1):
+        u[j] = un[j] - a*dt/(2*dx)*(un[j+1]-un[j-1])
+    u[0] = u[-1]
+    u[-1] = u[-2]
+
+    t = round(t+dt, 2)
+    
+L1_centre = round(np.sum(np.abs(u-u0)*dx), 2)
+```
+
+
+
+```{python, message=FALSE, warning=FALSE, echo=FALSE}
+# Schema 2 (decentre)
+N = 100
+CFL = 0.99
+dx = L/(N-1)
+dt = round(CFL*dx/a, 2)
+
+x = np.linspace(0, L, N)
+
+u0 = np.zeros(N)
+u0[int(3/dx):int(4/dx)] = 1
+
+u = u0.copy()
+
+un = np.zeros(N)
+
+t = 0
+
+while t < 2.5:
+    un = u.copy()
+    for j in range(1, N):
+        u[j] = un[j] - a*dt/dx*(un[j]-un[j-1])
+    u[0] = u[-1]
+    u[-1] = u[-2]
+    
+    t = round(t+dt, 2)
+    
+L1_decentre = round(np.sum(np.abs(u-u0)*dx), 2)
+```
+
+
+
+```{python, message=FALSE, warning=FALSE, echo=FALSE}
+# Schema 3 (Lax-Friedrichs)
+N = 100
+CFL = 0.99
+dx = L/(N-1)
+dt = round(CFL*dx/a, 2)
+
+x = np.linspace(0, L, N)
+
+u0 = np.zeros(N)
+u0[int(3/dx):int(4/dx)] = 1
+
+u = u0.copy()
+
+un = np.zeros(N)
+
+t = 0
+
+while t < 2.5:
+    un = u.copy()
+    for j in range(1, N-1):
+        u[j] = 0.5*(un[j-1]+un[j+1]) - a*dt/(2*dx)*(un[j+1]-un[j-1])
+    u[0] = u[-1]
+    u[-1] = u[-2]
+
+    t = round(t+dt, 2)
+    
+L1_Lax_Friedrichs = round(np.sum(np.abs(u-u0)*dx), 2)
+```
+
+
+
+```{python, message=FALSE, warning=FALSE, echo=FALSE}
+# Schema 4 (Lax-Wendroff)
+
+N = 100
+
+CFL = 0.99
+
+dx = L/(N-1)
+
+dt = round(CFL*dx/a, 2)
+
+x = np.linspace(0, L, N)
+
+u0 = np.zeros(N)
+
+u0[int(3/dx):int(4/dx)] = 1
+
+u = u0.copy()
+
+un = np.zeros(N)
+
+t = 0
+
+while t < 2.5:
+    un = u.copy()
+    for j in range(1, N-1):
+        u[j] = un[j] - a*dt/dx*(un[j]-un[j-1]) + a**2*dt/(2*dx**2)*(un[j-1]-2*un[j]+un[j+1])
+    u[0] = u[-1]
+    u[-1] = u[-2]
+    
+    t = round(t+dt, 2)
+    
+L1_Lax_Wendroff = round(np.sum(np.abs(u-u0)*dx), 2)
+```
+
+
+```{python, message=FALSE, warning=FALSE, echo=FALSE, out.width='100%'}
+# All errors in pandas series
+import pandas as pd
+
+errors = pd.Series([L1_centre, L1_decentre, L1_Lax_Friedrichs, L1_Lax_Wendroff], index=['Centre', 'Decentre', 'Lax-Friedrichs', 'Lax-Wendroff'])
+
+# Plot errors with barplot having error value above bar
+ax = errors.plot(kind='bar', figsize=(10, 8), color='skyblue', zorder=2, width=0.5)
+
+for i in ax.patches:
+    ax.text(i.get_x() + i.get_width() / 2, i.get_height() + 0.1, round(i.get_height(), 2), ha='center', va='bottom')
+
+ax.set_xticklabels(ax.get_xticklabels(), rotation=45)  # Rotate xticks by 45 degrees
+
+ax.set_xlabel('Schemas numeriques')
+ax.set_ylabel('Erreur en norme L1')
+ax.set_title('Erreur en norme L1 pour chaque schema numerique')
+ax.grid(axis='y', linestyle='--', zorder=1)
+plt.show()
+```
+
+On remarque que le schema numerique Lax-Wendroff est celui qui a la plus grande erreur en norme $L^1$.
 
 **Données** :
 
 $L = 10 m ,\  a = 2 m/s , \ u_0(x) = 1\  pour\  3 m \leq x \leq 4 m\  et\  0 \ ailleurs.$
 
 Nombre de Courant : $CFL = 0.8$.
+
+
+\newpage
 
 
 # 2. Equation de Burgers
@@ -899,9 +1544,44 @@ $$
 u(x, t=0) = u_0(x), & \forall x \in [0,L] \\
 \frac{\partial u}{\partial x}(0, t)= \frac{\partial u}{\partial x}(L, t)=0 & \forall t > 0
 \end{array}
+\right. 
+$$
+
+
+5) Reprendre les questions 1), 3) et 4).
+
+1) A l’aide de la méthode des caractériques, déterminer la solution exacte $u(x, t)$ du problème $(E_2)$.
+
+Nous allons chercher une courbe caractéristique $\Gamma ((t(s), x(s))$, s étant le paramètre qui décrit la courbe, le long de laquelle l'EDP devient un système d'EDO.
+
+$$
+\begin{aligned}
+du &= \frac{\partial u}{\partial t}dt + \frac{\partial u}{\partial x}dx\\
+\frac{du}{ds} &= \frac{\partial u}{\partial t}\frac{dt}{ds} + \frac{\partial u}{\partial x}\frac{dx}{ds}\\
+\frac{du}{ds} &= -u\frac{\partial u}{\partial x}\frac{dt}{ds} + \frac{\partial u}{\partial x}\frac{dx}{ds}\\
+\frac{du}{ds} &= \frac{\partial u}{\partial x}\left(\frac{dx}{ds} - u\frac{dt}{ds}\right)\\
+\end{aligned}
+$$
+
+On voit donc que si on impose $\frac{dx}{ds} - u\frac{dt}{ds} = 0$, alors $\frac{du}{ds} = 0$ et donc u est constant le long de la courbe caractéristique.
+
+On a donc le système d'EDO suivant a resoudre:
+
+$$
+\left\{
+\begin{array}{ll}
+\frac{dx}{dt} = u \ \text{qui donne la courbe caractéristique }\Gamma\\
+du = 0 \ \text{qui donne la solution u(x, t) sur cette courbe caractéristique} 
+\end{array}
 \right.
 $$
-5) Reprendre les questions 1), 3) et 4).
+- **Courbe caractéristique:**
+
+$$
+\frac{dx}{dt} = u \ \text{donne} \ x(t) = ut + \xi (avec \ \xi \ \text{une constante reelle d'integration})
+$$
+
+
 
 **Données** :
 
