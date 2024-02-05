@@ -744,6 +744,7 @@ u_{j-1}^{n} &= u_{j}^{n} - \Delta x\frac{\partial u}{\partial x} + \frac{(\Delta
 \frac{\partial^2 u}{\partial x^2}|_{j}^{n} &=\frac{u_{j+1}^{n}-2u_{j}^{n}+u_{j-1}^{n}}{(\Delta x)^2} + \mathcal{O}((\Delta x))\\
 \end{aligned}
 $$
+
 On a finalement commme approximation pour la derivee temporelle de $u$:
 
 $$
@@ -839,33 +840,36 @@ $$
 \end{aligned}
 $$
 
+
+
 On doit avoir $|1 - i\lambda sin(\xi \Delta x) + \lambda^2(cos(\xi \Delta x)-1)|\leq 1\  \forall \xi \in \mathbb{R}$
+
+\newpage
 
 On a:
 
 $$
 \begin{aligned}
 |1 - i\lambda sin(\xi \Delta x) + \lambda^2(cos(\xi \Delta x)-1)|^2 &\leq 1\\
-|1  + \lambda^2(cos(\xi \Delta x)-1) - i\lambda sin(\xi \Delta x)|^2 &\leq 1\\
-(1  + \lambda^2(cos(\xi \Delta x)-1))^2 + (\lambda sin(\xi \Delta x))^2 &\leq 1\\
-1  + 2\lambda^2(cos(\xi \Delta x)-1) + \lambda^4(cos^2(\xi \Delta x)-2cos(\xi \Delta x)+1) + (\lambda^2 sin^2(\xi \Delta x) &\leq 1\\
-1  + 2\lambda^2cos(\xi \Delta x)-2\lambda^2 + \lambda^4cos^2(\xi \Delta x)-2\lambda^4cos(\xi \Delta x)+\lambda^4 + \lambda^2 sin^2(\xi \Delta x) &\leq 1\\
-2\lambda^2cos(\xi \Delta x)-2\lambda^2 + \lambda^4cos^2(\xi \Delta x)-2\lambda^4cos(\xi \Delta x)+\lambda^4 + \lambda^2 sin^2(\xi \Delta x) &\leq 0\\
-2\lambda^2(1-sin^2(\xi \Delta x)) -2\lambda^2 + \lambda^4cos^2(\xi \Delta x)-2\lambda^4cos(\xi \Delta x)+\lambda^4 + \lambda^2 sin^2(\xi \Delta x) &\leq 0\\
-2\lambda^2-2\lambda^2sin^2(\xi \Delta x) -2\lambda^2 + \lambda^4cos^2(\xi \Delta x)-2\lambda^4cos(\xi \Delta x)+\lambda^4 + \lambda^2 sin^2(\xi \Delta x) &\leq 0\\   
--2\lambda^2sin^2(\xi \Delta x) + \lambda^4cos^2(\xi \Delta x)-2\lambda^4cos(\xi \Delta x)+\lambda^4 + \lambda^2 sin^2(\xi \Delta x) &\leq 0\\
-\lambda^4cos^2(\xi \Delta x)-2\lambda^4cos(\xi \Delta x)+\lambda^4 -2\lambda^2sin^2(\xi \Delta x) + \lambda^2 sin^2(\xi \Delta x) &\leq 0\\
-\lambda^4(1-sin^2(\xi \Delta x))-2\lambda^4cos(\xi \Delta x)+\lambda^4 -\lambda^2sin^2(\xi \Delta x) &\leq 0\\
-\lambda^4 - \lambda^4sin^2(\xi \Delta x)-2\lambda^4cos(\xi \Delta x)+\lambda^4 -\lambda^2sin^2(\xi \Delta x) &\leq 0\\
-2\lambda^4 - 2\lambda^4sin^2(\xi \Delta x)-2\lambda^4cos(\xi \Delta x)-\lambda^2sin^2(\xi \Delta x) &\leq 0\\
-2\lambda^4 -2\lambda^4cos(\xi \Delta x) - 2\lambda^4sin^2(\xi \Delta x)-\lambda^2sin^2(\xi \Delta x) &\leq 0\\
-2\lambda^4(1-cos(\xi \Delta x)) -(2\lambda^2+1)\lambda^2sin^2(\xi \Delta x) &\leq 0\\
--2\lambda^4(cos(\xi \Delta x)-1) -(2\lambda^2+1)\lambda^2sin^2(\xi \Delta x) &\leq 0\\
--4\lambda^4sin^2(\frac{\xi \Delta x}{2}) -2\lambda^2(2\lambda^2+1)sin^2\frac{\xi\Delta x}{2}cos^2\frac{\xi\Delta x}{2} &\leq 0 \ (\text{ ce qui est vrai } \forall \xi \in \mathbb{R})\\
+|1 - i\lambda sin(\xi \Delta x) - 2\lambda^2sin^2(\frac{\xi \Delta x}{2})|^2 &\leq 1\\
+|1 - 2\lambda^2sin^2(\frac{\xi \Delta x}{2}) - i\lambda sin(\xi \Delta x)|^2 &\leq 1\\
+(1 - 2\lambda^2sin^2(\frac{\xi \Delta x}{2}))^2 + (\lambda sin(\xi \Delta x))^2 &\leq 1\\
+1 - 4\lambda^2sin^2(\frac{\xi \Delta x}{2}) + 4\lambda^4sin^4(\frac{\xi \Delta x}{2}) + \lambda^2 sin^2(\xi \Delta x) &\leq 1\\
+- 4\lambda^2sin^2(\frac{\xi \Delta x}{2}) + 4\lambda^4sin^4(\frac{\xi \Delta x}{2}) + \lambda^2 [4sin^{2}(\frac{\xi \Delta x}{2})-4sin^{4}(\frac{\xi \Delta x}{2})]&\leq 0\\
+- 4\lambda^2sin^2(\frac{\xi \Delta x}{2}) + 4\lambda^4sin^4(\frac{\xi \Delta x}{2}) + 4\lambda^2sin^{2}(\frac{\xi \Delta x}{2})-4\lambda^2sin^{4}(\frac{\xi \Delta x}{2})&\leq 0\\
+ 4\lambda^4sin^4(\frac{\xi \Delta x}{2}) -4\lambda^2sin^{4}(\frac{\xi \Delta x}{2})&\leq 0\\
+ 4\lambda^2(\lambda^2-1)sin^4(\frac{\xi\Delta x}{2})\leq 0\\
+ sup_{\xi\in \mathbb{R}}[ 4\lambda^2(\lambda^2-1)sin^4(\frac{\xi\Delta x}{2})] \leq 0\\
+ 4\lambda^2(\lambda^2-1) \leq 0\\
+ \lambda^2(\lambda^2-1) \leq 0\\
+ \lambda^2 -1 \leq 0\\
+ \lambda^2 \leq 1\\
+ \lambda \leq 1\\
+ \frac{a\Delta t}{\Delta x} \leq 1
 \end{aligned}
 $$
 
-Ainsi, le schéma 4 Lax-Wendroff est incoditionnellement stable.
+Ainsi, le schéma 4 Lax-Wendroff est  stable si $\lambda=\frac{a\Delta t}{\Delta x}\leq 1$.
 
 
 - **Convergence**
@@ -1575,6 +1579,7 @@ du = 0 \ \text{qui donne la solution u(x, t) sur cette courbe caractéristique}
 \end{array}
 \right.
 $$
+
 - **Courbe caractéristique:**
 
 $$
