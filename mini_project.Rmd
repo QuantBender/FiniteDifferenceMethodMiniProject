@@ -2785,11 +2785,15 @@ On a le schéma numérique Lax-Wendroff:
 
 $$
 \begin{cases}
-u_j^{n+1}=u_{j}^{n}+\frac{1}{\alpha}\frac{\lambda^2}{2}(F(u_{j-1}^{n})-2F(u_{j}^{n})+F(u_{j+1}^{n}))-\frac{\lambda}{2}(F(u_{j+1}^{n})-F(u_{j-1}^{n})), & \forall x \in ]0,L[\  ; \ \forall t>0 , \text{ avec } \alpha=1-\frac{\Delta t}{2\Delta x}(u_{j+1}^{n}-u_{j}^{n}), \text{ et } \lambda=\frac{\Delta t}{\Delta x} \\
+u_j^{n+1}=u_{j}^{n}+\frac{\lambda^2}{2}u_{j}^{n}(F(u_{j-1}^{n})-2F(u_{j}^{n})+F(u_{j+1}^{n}))-\alpha\frac{\lambda}{2}(F(u_{j+1}^{n})-F(u_{j-1}^{n})), & \forall x \in ]0,L[\  ; \ \forall t>0  \\
 u(x, 0) = u_0(x), & \forall x \in [0,L] \\
 u(0, t)=u(L, t) & \forall t > 0
 \end{cases}
-$$
+$$,
+
+
+avec $\alpha=1-\frac{\Delta t}{2\Delta x}(u_{j+1}^{n}-u_{j}^{n}), \text{ et } \lambda=\frac{\Delta t}{\Delta x}$.
+
 
 ```{python, message=FALSE, warning=FALSE, echo=FALSE}
 import numpy as np
@@ -2869,7 +2873,7 @@ while t <= t2:
     for j in range(1, N-1):
         alpha = 1 - (dt/(2*dx))*(un[j+1]-un[j])
         lambda_ = (dt/dx)
-        u[j] = un[j] + (1/alpha)*(lambda_**2/2)*(F(un[j-1])-2*F(un[j])+F(un[j+1])) - (lambda_/2)*(F(un[j+1])-F(un[j-1]))
+        u[j] = un[j] + un[j]*(lambda_**2/2)*(F(un[j-1])-2*F(un[j])+F(un[j+1])) - alpha*(lambda_/2)*(F(un[j+1])-F(un[j-1]))
     u[0] = u[1]
     u[-1] = u[-2]
     
@@ -2908,7 +2912,7 @@ while t <= t1:
     for j in range(1, N-1):
         alpha = 1 - (dt/(2*dx))*(un[j+1]-un[j])
         lambda_ = (dt/dx)
-        u[j] = un[j] + (1/alpha)*(lambda_**2/2)*(F(un[j-1])-2*F(un[j])+F(un[j+1])) - (lambda_/2)*(F(un[j+1])-F(un[j-1]))
+        u[j] = un[j] + un[j]*(lambda_**2/2)*(F(un[j-1])-2*F(un[j])+F(un[j+1])) - alpha*(lambda_/2)*(F(un[j+1])-F(un[j-1]))
     u[0] = u[1]
     u[-1] = u[-2]
     
@@ -2935,7 +2939,7 @@ while t <= t2:
     for j in range(1, N-1):
         alpha = 1 - (dt/(2*dx))*(un[j+1]-un[j])
         lambda_ = (dt/dx)
-        u[j] = un[j] + (1/alpha)*(lambda_**2/2)*(F(un[j-1])-2*F(un[j])+F(un[j+1])) - (lambda_/2)*(F(un[j+1])-F(un[j-1]))
+        u[j] = un[j] + un[j]*(lambda_**2/2)*(F(un[j-1])-2*F(un[j])+F(un[j+1])) - alpha*(lambda_/2)*(F(un[j+1])-F(un[j-1]))
     u[0] = u[1]
     u[-1] = u[-2]
     
@@ -3171,7 +3175,7 @@ while t <= t1:
     for j in range(1, N-1):
         alpha = 1 - (dt/(2*dx))*(un[j+1]-un[j])
         lambda_ = (dt/dx)
-        u[j] = un[j] + (1/alpha)*(lambda_**2/2)*(F(un[j-1])-2*F(un[j])+F(un[j+1])) - (lambda_/2)*(F(un[j+1])-F(un[j-1]))
+        u[j] = un[j] + un[j]*(lambda_**2/2)*(F(un[j-1])-2*F(un[j])+F(un[j+1])) - alpha*(lambda_/2)*(F(un[j+1])-F(un[j-1]))
     u[0] = u[1]
     u[-1] = u[-2]
     
