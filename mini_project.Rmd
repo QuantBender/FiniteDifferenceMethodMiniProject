@@ -18,7 +18,7 @@ pour deux équations relevant de lois de conservation 1D définies sur un domain
 
 # 1. Equation de transport
 
-On considère l'équation de transport soumise à des conditions aux limites periodiques:
+On considère l'équation de transport soumise à des conditions aux limites périodiques:
 
 $$
 (E_{1})\left\{
@@ -29,7 +29,7 @@ u(0, t) = u(L, t)\ ; \ \frac{\partial u}{\partial x}(L, t)=0 & \forall t > 0
 \end{array}
 \right.
 $$
-1) A l'aide de la methode des caracteristiques, determiner la solution exacte $u(x, t)$ du probleme $(E_{1})$.
+1) A l'aide de la méthode des caractéristiques, déterminer la solution exacte $u(x, t)$ du problème $(E_{1})$.
 
 Nous allons chercher une courbe caractéristique $\Gamma ((t(s), x(s))$, s étant le paramètre qui décrit la courbe, le long de laquelle l'EDP devient un système d'EDO.
 
@@ -44,7 +44,7 @@ $$
 
 On voit que si on impose $\frac{dx}{ds}-a\frac{dt}{ds} = 0$, on a $\frac{du}{ds} = 0$, c'est à dire que u est constant le long de la courbe caractéristique. 
 
-On a donc le système d'EDO suivant a resoudre:
+On a donc le système d'EDO suivant a résoudre:
 
 $$
 \left\{
@@ -116,7 +116,7 @@ Soit alors
 $$
 u(x, t) = f(x-at)
 $$
-Cette solution doit etre retrouvee aussi pour $t=0$.
+Cette solution doit être retrouvée aussi pour $t=0$.
 
 Or a $t=0$, on a:
 
@@ -126,21 +126,21 @@ $$
 
 c'est a dire $$f\equiv u_0$$
 
-On obtient finalement la solution exacte du probleme $(E_{1})$:
+On obtient finalement la solution exacte du problème $(E_{1})$:
 
 $$
 u(x, t) = u_0(x-at), \ \forall x \in [0, L], \ \forall t > 0
 $$
-Elle est periodique en x, de periode L.
+Elle est périodique en x, de période L.
 
 
-On discretise l'intervalle $[0, L]$ en $(N-1)$ sous-interalles $[x_{i}, x_{i+1}](i=1, ..., N-1)$ de tailles egales $\Delta x(\Delta x=\frac{L}{N-1}, x_{i+1}=x_{i}+\Delta x)$, et on note par $u_{i}^{n}$ la solution approchee au noeud $x_{i}$ a l'instant $t^{n}=n\Delta t$($\Delta t$ etant le pas de chnage).
+On discrétoire l'intervalle $[0, L]$ en $(N-1)$ sous-intervalles $[x_{i}, x_{i+1}](i=1, ..., N-1)$ de tailles égales $\Delta x(\Delta x=\frac{L}{N-1}, x_{i+1}=x_{i}+\Delta x)$, et on note par $u_{i}^{n}$ la solution approchée au nœud $x_{i}$ a l'instant $t^{n}=n\Delta t$($\Delta t$ étant le pas de change).
 
 
-2) Etudier la consistance, la stabilite et la convergence de chacun des schemas numeriques suivants:
+2) Etudier la consistance, la stabilité et la convergence de chacun des schémas numériques suivants:
 
 
-**Schema 1 (centre):**
+**Schéma 1 (centre):**
 
 $$
 \frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} = 0
@@ -162,7 +162,7 @@ $$
 
 
 
-+ Et d’autre part le développement de Taylor de $u_{j+1}^{n}$ et $u_{j-1}^{n}$ à l’ordre 2 :
++ Et d’autre part le développement de Taylor de $u_{j+1}^{n}$ et $u_{j-1}^{n}$ à schéma 2 :
 
 $$
 \begin{aligned}
@@ -191,8 +191,8 @@ $$
 \end{aligned}
 $$
 
-Nous avons donc un schema d'ordre 1 en temps et d'ordre 2 en espace. 
-Par definition de la consistance, Un schéma est dit consistant si l'erreur de troncature tend vers 0 lorsque $\Delta t$ et $\Delta x$ tendent vers 0. Soit:
+Nous avons donc un schéma d'ordre 1 en temps et d'ordre 2 en espace. 
+Par définition de la consistance, Un schéma est dit consistant si l'erreur de troncature tend vers 0 lorsque $\Delta t$ et $\Delta x$ tendent vers 0. Soit:
 
 $$
 \lim_{\Delta t, \Delta x \to 0} \text{ET} = 0
@@ -264,12 +264,12 @@ Ainsi, le schéma 1 centre est instable.
 
 - **Convergence**
 
-En utilisant la contraposee du theoreme de Lax, on a:
+En utilisant la contraposée du théorème de Lax, on a:
 
-Le shéma 1 centre n'est pas stable, donc il n'est pas convergent.
+Le schéma 1 centre n'est pas stable, donc il n'est pas convergent.
 
 
-**Schema 2 (decentre):**
+**Schéma 2 (décentré):**
 
 $$
 \begin{aligned}
@@ -292,7 +292,7 @@ u_{j}^{n+1} &= u_{j}^{n} + \Delta t\frac{\partial u}{\partial t}|_{j}^{n} + O(\D
 \frac{\partial u}{\partial t}|_{j}^{n} &=\frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + O(\Delta t)
 \end{aligned}
 $$
-+ Et d’autre part le développement de Taylor de $u_{j}^{n}$ et $u_{j-1}^{n}$ à l’ordre 1 :
++ Et d’autre part le développement de Taylor de $u_{j}^{n}$ et $u_{j-1}^{n}$ à ordre 1 :
 
 $$
 \begin{aligned}
@@ -322,9 +322,9 @@ $$
 \end{aligned}
 $$
 
-Nous avons donc un schema d'ordre 1 en temps et d'ordre 1 en espace.
+Nous avons donc un schéma d'ordre 1 en temps et d'ordre 1 en espace.
 
-Par definition de la consistance, Un schéma est dit consistant si l'erreur de troncature tend vers 0 lorsque $\Delta t$ et $\Delta x$ tendent vers 0. Soit:
+Par définition de la consistance, Un schéma est dit consistant si l'erreur de troncature tend vers 0 lorsque $\Delta t$ et $\Delta x$ tendent vers 0. Soit:
 
 $$
 \lim_{\Delta t, \Delta x \to 0} \text{ET} = 0 
@@ -414,7 +414,7 @@ Ainsi, le schéma 2 décentré en amont est stable si $\frac{a\Delta t}{\Delta x
 
 - **Convergence**
 
-Le schema 2 décentré etant consistant et conditionnellement stable; en utilisant le theorème de Lax sous les memes conditions de stabilité, on deduit que le schema 2 décentré en amont($a>0$) est convergent.
+Le schéma 2 décentré étant consistant et conditionnellement stable; en utilisant le théorème de Lax sous les mêmes conditions de stabilité, on déduit que le schéma 2 décentré en amont($a>0$) est convergent.
 
 - **Cas a < 0**
 
@@ -431,7 +431,7 @@ u_{j}^{n+1} &= u_{j}^{n} + \Delta t\frac{\partial u}{\partial t}|_{j}^{n} + O(\D
 \end{aligned}
 $$
 
-+ Et d’autre part le développement de Taylor de $u_{j+1}^{n}$ et $u_{j}^{n}$ à l’ordre 1 :
++ Et d’autre part le développement de Taylor de $u_{j+1}^{n}$ et $u_{j}^{n}$ à ordre 1 :
 
 $$
 \begin{aligned}
@@ -460,9 +460,9 @@ $$
 \end{aligned}
 $$
 
-Nous avons donc un schema d'ordre 1 en temps et d'ordre 1 en espace.
+Nous avons donc un schéma d'ordre 1 en temps et d'ordre 1 en espace.
 
-Par definition de la consistance, un schéma est dit consistant si l'erreur de troncature tend vers 0 lorsque $\Delta t$ et $\Delta x$ tendent vers 0. Soit:
+Par définition de la consistance, un schéma est dit consistant si l'erreur de troncature tend vers 0 lorsque $\Delta t$ et $\Delta x$ tendent vers 0. Soit:
 
 $$
 \lim_{\Delta t, \Delta x \to 0} \text{ET} = 0
@@ -545,10 +545,11 @@ Le schéma 2 décentré en aval est stable si $\lambda < 0\implies a<0$.
 
 - **Convergence**
     
-Le schema 2 décentré etant consistant et stable; en utilisant le theorème de Lax, on deduit que le schema 2 décentré en aval ($a<0$) est convergent.
+Le schéma 2 décentré étant consistant et stable; en utilisant le théorème de Lax, on déduit que le schéma 2 décentré en aval ($a<0$) est convergent.
 
+\newpage
 
-**Schema 3 (Lax-Friedrichs):**
+**Schéma 3 (Lax-Friedrichs):**
 
 $$
 \frac{u_{j}^{n+1}-\frac{1}{2}(u_{j-1}^{n}+u_{j+1}^{n})}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} = 0
@@ -558,7 +559,7 @@ $$
 
 Utilisons le développement de Taylor pour évaluer la consistance du schéma. On a:
 
-+ D'une part le développement de Taylor de $u_{j+1}^{n}$ et $u_{j-1}^{n}$ à l’ordre 2 :
++ D'une part le développement de Taylor de $u_{j+1}^{n}$ et $u_{j-1}^{n}$ à ordre 2 :
 
 $$
 \begin{aligned}
@@ -588,7 +589,7 @@ u_{j}^{n} &= \frac{1}{2}(u_{j-1}^{n}+u_{j+1}^{n}) + O((\Delta x)^2)
 \end{aligned}
 $$
 
-En remplacant dans le troisieme développement de Taylor, on obtient:
+En remplaçant dans le troisième développement de Taylor, on obtient:
 
 $$
 \begin{aligned}
@@ -616,9 +617,9 @@ $$
 \end{aligned}
 $$
 
-Nous avons donc un schema d'ordre 1 en temps et d'ordre 2 en espace.
+Nous avons donc un schéma d'ordre 1 en temps et d'ordre 2 en espace.
 
-Par definition de la consistance, Un schéma est dit consistant si l'erreur de troncature tend vers 0 lorsque $\Delta t$ et $\Delta x$ tendent vers 0. Soit:
+Par définition de la consistance, Un schéma est dit consistant si l'erreur de troncature tend vers 0 lorsque $\Delta t$ et $\Delta x$ tendent vers 0. Soit:
 
 
 $$
@@ -679,6 +680,8 @@ $$
 
 On doit avoir $|cos(\xi\Delta x)-i\lambda sin(\xi\Delta x)|\leq 1\  \forall \xi \in \mathbb{R}$
 
+\newpage
+
 On a:
 
 $$
@@ -699,10 +702,10 @@ Ainsi, le schéma 3 Lax-Friedrichs est stable si $\frac{a\Delta t}{\Delta x} \le
 
 - **Convergence**
 
-Le schema 3 Lax-Friedrichs etant consistant et conditionnellement stable; en utilisant le theorème de Lax, on deduit que le schema 3 Lax-Friedrichs est convergent.
+Le schéma 3 Lax-Friedrichs étant consistant et conditionnellement stable; en utilisant le théorème de Lax, on déduit que le schéma 3 Lax-Friedrichs est convergent.
 
 
-**Schema 4 (Lax-Wendroff):**
+**Schéma 4 (Lax-Wendroff):**
 
 $$
 \frac{u_{j}^{n+1}-u_{j}^{n}}{\Delta t} + a\frac{u_{j+1}^{n}-u_{j-1}^{n}}{2\Delta x} - \frac{a^{2}\Delta t}{2(\Delta x)^{2}}(u_{j-1}^{n}-2u_{j}^{n}+u_{j+1}^{n}) = 0
@@ -713,7 +716,7 @@ $$
 
 Utilisons le développement de Taylor pour évaluer la consistance du schéma. On a:
 
-Le developpement de Taylor de $u$ en $(x_j, t^n+\Delta t)$ a l'ordre 2 est:
+Le développement de Taylor de $u$ en $(x_j, t^n+\Delta t)$ a l'ordre 2 est:
 
 $$
 \begin{aligned}
@@ -735,8 +738,9 @@ u_j^{n+1} &= u_j^{n} - a\Delta t\frac{\partial u}{\partial x}|_{j}^{n} + \frac{1
 \end{aligned}
 $$
 
+\newpage
 
-Utilisons les developpements de Taylor de $u_{j+1}^{n}$ et $u_{j-1}^{n}$ a l'ordre 3 pour approximer la derivee seconde de $u$ par rapport a $x$:
+Utilisons les développements de Taylor de $u_{j+1}^{n}$ et $u_{j-1}^{n}$ a l'ordre 3 pour approximer la dérivée seconde de $u$ par rapport a $x$:
 
 $$
 \begin{aligned}
@@ -746,7 +750,7 @@ u_{j-1}^{n} &= u_{j}^{n} - \Delta x\frac{\partial u}{\partial x} + \frac{(\Delta
 \end{aligned}
 $$
 
-On a finalement commme approximation pour la derivee temporelle de $u$:
+On a finalement comme approximation pour la dérivée temporelle de $u$:
 
 $$
 \begin{aligned}
@@ -754,7 +758,7 @@ $$
 \end{aligned}
 $$
 
-En utilisant les developenments de Taylor de $u_{j+1}^{n}$ et $u_{j-1}^{n}$ a l'ordre 2 precedents, on obtient comme pour approximation pour la derivee spatiale:
+En utilisant les développements de Taylor de $u_{j+1}^{n}$ et $u_{j-1}^{n}$ a l'ordre 2 précédents, on obtient comme pour approximation pour la dérivée spatiale:
 
 $$
 \begin{aligned}
@@ -781,9 +785,9 @@ $$
 \end{aligned}
 $$
 
-Nous avons donc un schema d'ordre 2 en temps et d'ordre 2 en espace.
+Nous avons donc un schéma d'ordre 2 en temps et d'ordre 2 en espace.
 
-Par definition de la consistance, Un schéma est dit consistant si l'erreur de troncature tend vers 0 lorsque $\Delta t$ et $\Delta x$ tendent vers 0. Soit:
+Par définition de la consistance, Un schéma est dit consistant si l'erreur de troncature tend vers 0 lorsque $\Delta t$ et $\Delta x$ tendent vers 0. Soit:
 
 
 $$
@@ -803,6 +807,8 @@ Or
 $$
 |\mathcal{O}(\Delta t)^2| \leq C|\Delta t|^2  \implies \lim_{\Delta t \to 0} \mathcal{O}(\Delta t)^2 = 0
 $$
+
+\newpage
 
 et
 
@@ -875,7 +881,7 @@ Ainsi, le schéma 4 Lax-Wendroff est  stable si $\lambda=\frac{a\Delta t}{\Delta
 
 - **Convergence**
 
-Le schema 4 Lax-Wendroff etant consistant et stable; en utilisant le theorème de Lax, on deduit que le schema 4 Lax-Wendroff est convergent.
+Le schéma 4 Lax-Wendroff étant consistant et stable; en utilisant le théorème de Lax, on déduit que le schéma 4 Lax-Wendroff est convergent.
 
 
 \newpage
@@ -883,9 +889,9 @@ Le schema 4 Lax-Wendroff etant consistant et stable; en utilisant le theorème d
 
 3) Implémenter chacun des schémas numériques pour évaluer la solution approchée, puis comparer cette solution avec la solution exacte. (Tracer les solutions aux temps physiques t1 = 2.5 s et t2 = 4.5 s en testant sur deux maillages différents formés de N = 100 et N = 200 points. Interpréter les résultats.
 
-- **Schema 1 (centré):**
+- **Schéma 1 (centré):**
 
-Schema numerique:
+Schéma numérique:
 
 $$
 \begin{cases}
@@ -1044,20 +1050,20 @@ plt.show()
 
 
 
-- On remarque que pour le schema centre, la solution numerique est instable pour $N=100$ et $N=200$.
+- On remarque que pour le schéma centre, la solution numérique est instable pour $N=100$ et $N=200$.
 
 - La solution exacte quant a elle, a $t=2.5s$ a subi un transport vers la droite de 5m.
 
-- A $t=4.5s$, la solution exacte a subi un transport vers la droite de 9m: etant periodique, elle est sorti de l'espace et y est revenue.
+- A $t=4.5s$, la solution exacte a subi un transport vers la droite de 9m: étant périodique, elle est sorti de l'espace et y est revenue.
 
 
 \newpage
 
-- **Schema 2 decentre en amont:**
+- **Schéma 2 décentré en amont:**
 
 Nous sommes dans le cas ou $a > 0$
 
-Schema numerique:
+Schéma numérique:
 
 $$
 \begin{cases}
@@ -1211,13 +1217,13 @@ _=plt.suptitle("Schema decentre en amont", y=1.02)
 plt.show()
 ```
 
-On remarque que pour le schema decentre en amont, la solution numerique est stable pour $N=100$ et $N=200$. On observe juste une faible diffusion numerique.
+On remarque que pour le schéma décentré en amont, la solution numérique est stable pour $N=100$ et $N=200$. On observe juste une faible diffusion numérique.
 
 \newpage
 
-- **Schema 2 decentre en aval:**
+- **Schéma 2 décentré en aval:**
 
-Schema numerique:
+Schéma numérique:
 
 $$
 \begin{cases}
@@ -1378,15 +1384,15 @@ plt.show()
 ```
 
 
-On remarque que pour le schema decentre en aval, la solution numerique est instable pour $N=100$ et $N=200$. Cela est normal car la condition de stabilite ($a<0$) n'est pas remplie.
+On remarque que pour le schéma décentré en aval, la solution numérique est instable pour $N=100$ et $N=200$. Cela est normal car la condition de stabilité ($a<0$) n'est pas remplie.
 
 
 \newpage 
 
 
-- **Schema 3 (Lax-Friedrichs):**
+- **Schéma 3 (Lax-Friedrichs):**
 
-Schema numerique:
+Schéma numérique:
 
 $$
 \begin{cases}
@@ -1543,13 +1549,13 @@ _=plt.suptitle("Schema Lax-Friedrichs", y=1.02)
 plt.show()
 ```
 
-On remarque que pour le schema Lax-Friedrichs, la solution numerique est stable pour $N=100$ et $N=200$. On observe juste une faible diffusion numerique.
+On remarque que pour le schéma Lax-Friedrichs, la solution numérique est stable pour $N=100$ et $N=200$. On observe juste une faible diffusion numérique.
 
 \newpage
 
-- **Schema 4 (Lax-Wendroff):**
+- **Schéma 4 (Lax-Wendroff):**
 
-Schema numerique:
+Schéma numérique:
 
 $$
 \begin{cases}
@@ -1707,17 +1713,17 @@ plt.show()
 
 
 
-On remarque que pour le schema Lax-Wendroff, la solution numerique est stable pour $N=100$ et $N=200$, malgre une disfusion numerique, provenant du terme ajoute par Lax-Wendroff au schema centre.
+On remarque que pour le schéma Lax-Wendroff, la solution numérique est stable pour $N=100$ et $N=200$, malgré une diffusion numérique, provenant du terme ajoute par Lax-Wendroff au schéma centre.
 
 
 
 \newpage
 
-4) Evaluer l’erreur en norme $L^1$ de la solution numérique obtenue par chaque schéma au temps $t_1 = 2.5 s$ et pour N = 100. Interpréter.
+4) Evaluer erreur en norme $L^1$ de la solution numérique obtenue par chaque schéma au temps $t_1 = 2.5 s$ et pour N = 100. Interpréter.
 
 
 ```{python, message=FALSE, warning=FALSE, echo=FALSE}
-# Schema 1 (centré)
+# Schéma 1 (centré)
 import numpy as np
 import matplotlib.pyplot as plt
 import warnings
@@ -1767,7 +1773,7 @@ L1_centre = np.linalg.norm(u-u_exact, 1)
 
 
 ```{python, message=FALSE, warning=FALSE, echo=FALSE}
-# Schema 2 decentre en amont
+# Schéma 2 décentré en amont
 N = 100
 CFL = 0.8
 dx = L/(N-1)
@@ -1800,7 +1806,7 @@ L1_decentre_amont = np.linalg.norm(u-u_exact, 1)
 
 
 ```{python, message=FALSE, warning=FALSE, echo=FALSE}
-# Schema 2 decentre en aval
+# Schéma 2 décentré en aval
 N = 100
 CFL = 0.8
 dx = L/(N-1)
@@ -1833,7 +1839,7 @@ L1_decentre_aval = np.linalg.norm(u-u_exact, 1)
 
 
 ```{python, message=FALSE, warning=FALSE, echo=FALSE}
-# Schema 3 (Lax-Friedrichs)
+# Schéma 3 (Lax-Friedrichs)
 N = 100
 CFL = 0.8
 dx = L/(N-1)
@@ -1867,7 +1873,7 @@ L1_Lax_Friedrichs = np.linalg.norm(u-u_exact, 1)
 
 ```{python, message=FALSE, warning=FALSE, echo=FALSE}
 
-# Schema 4 (Lax-Wendroff)
+# Schéma 4 (Lax-Wendroff)
 N = 100
 CFL = 0.8
 dx = L/(N-1)
@@ -1922,7 +1928,7 @@ _=ax.grid(axis='y', linestyle='--', zorder=1)
 plt.show()
 ```
 
-On remarque que le schema numerique centre est celui qui a la plus grande erreur en norme $L^1$, suivi du schema numerique de Lax-Friedrichs. Les schemas numeriques decentre en amont et Lax-Wendroff ont des erreurs en norme $L^1$ les plus faibles.
+On remarque que le schéma numérique centre est celui qui a la plus grande erreur en norme $L^1$, suivi du schéma numérique de Lax-Friedrichs. Les schémas numériques décentré en amont et Lax-Wendroff ont des erreurs en norme $L^1$ les plus faibles.
 
 **Données** :
 
@@ -1936,7 +1942,7 @@ Nombre de Courant : $CFL = 0.8$.
 
 # 2. Equation de Burgers
 
-On considere maintenant l'equation de Burgers suivante:
+On considère maintenant l’équation de Burger suivante:
 
 $$
 (E_{2})\left\{
@@ -1967,7 +1973,7 @@ $$
 
 On voit donc que si on impose $\frac{dx}{ds} - u\frac{dt}{ds} = 0$, alors $\frac{du}{ds} = 0$ et donc u est constant le long de la courbe caractéristique.
 
-On a donc le système d'EDO suivant a resoudre:
+On a donc le système d'EDO suivant a résoudre:
 
 $$
 \left\{
@@ -2027,7 +2033,7 @@ Soit alors
 $$
 u(x, t) = f(x-ut)
 $$
-Cette solution doit etre retrouvee aussi pour $t=0$.
+Cette solution doit être retrouvée aussi pour $t=0$.
 
 Or a $t=0$, on a:
 
@@ -2037,7 +2043,7 @@ $$
 
 c'est a dire $$f\equiv u_0$$
 
-On obtient finalement la solution exacte du probleme $(E_{1})$:
+On obtient finalement la solution exacte du problème $(E_{1})$:
 
 $$
 u(x, t) = u_0(x-ut), \ \forall x \in [0, L], \ \forall t > 0
@@ -2045,9 +2051,9 @@ $$
 
 3) Pour chaque schéma numérique, tracer la solution approchée obtenue au temps $t_1 = 2.5 s$ et $t_2 = 4.5 s$ avec $N = 100$ et $N = 200$. Commenter les résultats obtenus.
 
-- **Schema 1 (centré)**:
+- **Schéma 1 (centré)**:
 
-<!-- Transformons l'equation de Burgers en une equation de transport pour pouvoir appliquer le schema numerique centre. -->
+<!-- Transformons l’équation de Burgers en une équation de transport pour pouvoir appliquer le schéma numérique centre. -->
 
 <!-- $$ -->
 <!-- \begin{aligned} -->
@@ -2057,7 +2063,7 @@ $$
 <!-- \end{aligned} -->
 <!-- $$ -->
 
-on a alors le schema numerique centre:
+on a alors le schéma numérique centre:
 
 $$
 \begin{cases}
@@ -2232,13 +2238,13 @@ plt.show()
 ```
 
 
-On remarque que pour le schema centre associe a l'equation de Burger, la solution numerique est instable pour $N=100$ et $N=200$. 
+On remarque que pour le schéma centre associe a l’équation de Burger, la solution numérique est instable pour $N=100$ et $N=200$. 
 
 \newpage
 
-- **Schema 2 decentre en amont**:
+- **Schéma 2 décentré en amont**:
 
-Transformons l'equation de Burgers en une equation de transport pour pouvoir appliquer le schema numerique decentre en amont.
+Transformons l’équation de Burgers en une équation de transport pour pouvoir appliquer le schéma numérique décentré en amont.
 
 
 $$
@@ -2248,7 +2254,7 @@ $$
 \frac{\partial u}{\partial t} + \frac{\partial F(u)}{\partial x} &= 0, \text{ avec } F(u)=\frac{u^2}{2}\\
 \end{aligned}
 $$
-On a alors le schema numerique decentre en amont:
+On a alors le schéma numérique décentré en amont:
 
 $$
 \begin{cases}
@@ -2418,14 +2424,14 @@ _=plt.suptitle("Schema Decentre en Amont", y=1.02)
 plt.show()
 ```
 
-On remarque que pour le schema decentre en amont associe a l'equation de Burger, la solution numerique est stable pour $N=100$ et $N=200$.
+On remarque que pour le schéma décentré en amont associe a l’équation de Burger, la solution numérique est stable pour $N=100$ et $N=200$.
 
 
 \newpage
 
-- **Schema 2 decentre en aval**:
+- **Schéma 2 décentré en aval**:
 
-On a le schema numerique decentre en aval:
+On a le schéma numérique décentré en aval:
 
 $$
 \begin{cases}
@@ -2592,14 +2598,14 @@ plt.show()
 ```
 
 
-On remarque que pour le schema decentre en aval associe a l'equation de Burger, la solution numerique est instable pour $N=100$ et $N=200$.
+On remarque que pour le schéma décentré en aval associe a l’équation de Burger, la solution numérique est instable pour $N=100$ et $N=200$.
 
 
 \newpage
 
-- **Schema 3 Lax-Friedrichs**:
+- **Schéma 3 Lax-Friedrichs**:
 
-On a le schema numerique Lax-Friedrichs:
+On a le schéma numérique Lax-Friedrichs:
 
 $$
 \begin{cases}
@@ -2769,13 +2775,13 @@ plt.show()
 ```
 
 
-On remarque que pour le schema Lax-Friedrichs associe a l'equation de Burger, la solution numerique est stable pour $N=100$ et $N=200$.
+On remarque que pour le schéma Lax-Friedrichs associe a l’équation de Burger, la solution numérique est stable pour $N=100$ et $N=200$.
 
 \newpage
 
-- **Schema 4 Lax-Wendroff**:
+- **Schéma 4 Lax-Wendroff**:
 
-On a le schema numerique Lax-Wendroff:
+On a le schéma numérique Lax-Wendroff:
 
 $$
 \begin{cases}
@@ -2952,15 +2958,15 @@ plt.show()
 ```
 
 
-On remarque que pour le schema Lax-Wendroff associe a l'equation de Burger, la solution numerique est stable pour $N=100$ et $N=200$.
+On remarque que pour le schéma Lax-Wendroff associe a l’équation de Burger, la solution numérique est stable pour $N=100$ et $N=200$.
 
 \newpage
 
-4) Evaluer l’erreur en norme $L^1$ de la solution numérique obtenue par chaque schéma au temps $t_1 = 2.5 s$ et pour N = 100. Interpréter.
+4) Evaluer Schéma en norme $L^1$ de la solution numérique obtenue par chaque schéma au temps $t_1 = 2.5 s$ et pour N = 100. Interpréter.
 
 
 ```{python, message=FALSE, warning=FALSE, echo=FALSE}
-# Schema 1 (centré)
+# Schéma 1 (centré)
 import numpy as np
 import matplotlib.pyplot as plt
 import warnings
@@ -3022,7 +3028,7 @@ u_exacte = [u_exact(y, t1) for y in x]
 L1_centre = np.linalg.norm(u-u_exacte, 1)
 
 
-# Schema 2 (decentre en amont)
+# Schéma 2 (décentré en amont)
 L = 6
 N = 100
 CFL = 0.8
@@ -3061,7 +3067,7 @@ u_exacte = [u_exact(y, t1) for y in x]
 L1_amont = np.linalg.norm(u-u_exacte, 1)
 
 
-# Schema 3 (decentre en aval)
+# Schéma 3 (décentré en aval)
 L = 6
 N = 100
 CFL = 0.8
@@ -3098,7 +3104,7 @@ u_exacte = [u_exact(y, t1) for y in x]
 
 L1_aval = np.linalg.norm(u-u_exacte, 1)
 
-# Schema 4 (Lax-Friedrichs)
+# Schéma 4 (Lax-Friedrichs)
 
 L = 6
 N = 100
@@ -3136,7 +3142,7 @@ u_exacte = [u_exact(y, t1) for y in x]
 
 L1_friedrichs = np.linalg.norm(u-u_exacte, 1)
 
-# Schema 5 (Lax-Wendroff)
+# Schéma 5 (Lax-Wendroff)
 L = 6
 N = 100
 CFL = 0.8
@@ -3196,13 +3202,20 @@ _=ax.grid(axis='y', linestyle='--', zorder=1)
 plt.show()
 ```
 
-On remarque que le schema numerique decentre en amont a la plus petite erreur en norme $L^1$ au temps $t_1 = 2.5 s$ et pour $N = 100$. En effet, le schema numerique decentre en amont apparait etre le schema numerique le plus precis pour resoudre l'equation de Burger aus ein de notre experience.
+On remarque que le schéma numérique décentré en amont a la plus petite erreur en norme $L^1$ au temps $t_1 = 2.5 s$ et pour $N = 100$. En effet, le schéma numérique décentré en amont apparaît être le schéma numérique le plus précis pour résoudre l’équation de Burger au sein de notre expérience.
 
 **Données** :
 
 $L = 6m ,\  u_0(x) = 0.4\  pour\  x < 2m \ et \ 0.1\ ailleurs.\ CFL = 0.8$.
 
 
+
+# References
+
+```{bibliography}
+1. https://folk.ntnu.no/leifh/teaching/tkt4140/._main075.html
+2. https://uma.ensta-paristech.fr/conf/tipe/2014/talks/scilab2/transport_burgers%202p.pdf
+```
 
 
 
